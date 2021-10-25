@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "145206856336",
+    "firebase_url": "https://publictransportapp-fea50-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "publictransportapp-fea50",
+    "storage_bucket": "publictransportapp-fea50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145206856336:android:db40a37a7e0a61be9ca615",
+        "android_client_info": {
+          "package_name": "com.example.publictransportationapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145206856336-14g0ktcrmtd6fh9bgqa7vq5b02rij9ke.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfAFmUc2IQwVbhaCUzturC1xKdWjOYI1U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145206856336-14g0ktcrmtd6fh9bgqa7vq5b02rij9ke.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
