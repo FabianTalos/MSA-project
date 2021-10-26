@@ -7,12 +7,90 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/vehicleStop"
+        android:layout_width="348dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_marginBottom="385dp"
+        android:hint="@string/insert_stop_station"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vehicleType"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/vehicleNumber"
+        android:layout_width="348dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_marginBottom="515dp"
+        android:hint="@string/insert_vehicle_number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vehicleType"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/vehicleType"
+        android:layout_width="348dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_marginBottom="580dp"
+        android:hint="@string/insert_vehicle_type"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/vehicleStart"
+        android:layout_width="348dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_marginBottom="450dp"
+        android:hint="@string/insert_start_station"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vehicleType"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="TextContrastCheck" />
+
+    <Button
+        android:id="@+id/buttonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginStart="161dp"
+        android:layout_marginLeft="161dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginRight="162dp"
+        android:layout_marginBottom="300dp"
+        android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vehicleStop" />
 </androidx.constraintlayout.widget.ConstraintLayout>

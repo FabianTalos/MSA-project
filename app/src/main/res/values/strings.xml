@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Public Transportation App</string>
+    <string name="add">ADD</string>
+    <string name="insert_stop_station">Insert Stop Station</string>
+    <string name="insert_vehicle_type">Insert Vehicle Type</string>
+    <string name="insert_vehicle_number">Insert Vehicle Number</string>
+    <string name="insert_start_station">Insert Start Station</string>
 </resources>
