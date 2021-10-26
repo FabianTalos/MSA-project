@@ -1,7 +1,16 @@
 package com.example.publictransportationapp;
 
 public class Transport {
-    private String type, number, start, stop;
+
+    String type, number, start, stop;
+
+    public Transport(String type, String number, String start, String stop)
+    {
+        this.type = type;
+        this.number = number;
+        this.start = start;
+        this.stop = stop;
+    }
 
     public String getType() {
         return type;

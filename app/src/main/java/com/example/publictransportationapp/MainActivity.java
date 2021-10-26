@@ -23,21 +23,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        vehicleType = (EditText) findViewById(R.id.vehicleType);
-        vehicleNumber = (EditText)findViewById(R.id.vehicleNumber);
-        vehicleStart = (EditText)findViewById(R.id.vehicleStart);
-        vehicleStop = (EditText)findViewById(R.id.vehicleStop);
+        vehicleType = findViewById(R.id.vehicleType);
+        vehicleNumber = findViewById(R.id.vehicleNumber);
+        vehicleStart = findViewById(R.id.vehicleStart);
+        vehicleStop = findViewById(R.id.vehicleStop);
         buttonAdd = (Button)findViewById(R.id.buttonAdd);
-        transport = new Transport();
+
         fbdb = FirebaseDatabase.getInstance().getReference().child("Transport");
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                transport.setType(vehicleType.getText().toString().trim());
-                transport.setNumber(vehicleNumber.getText().toString().trim());
-                transport.setStart(vehicleStart.getText().toString().trim());
-                transport.setStop(vehicleStop.getText().toString().trim());
+                String type = vehicleType.getText().toString().trim();
+                String number = (vehicleNumber.getText().toString().trim());
+                String start = (vehicleStart.getText().toString().trim());
+                String stop = (vehicleStop.getText().toString().trim());
+
+                Transport transport = new Transport(type, number, start, stop);
+
                 fbdb.push().setValue(transport);
 
                 Toast.makeText(MainActivity.this, "Data added to database!", Toast.LENGTH_LONG).show();

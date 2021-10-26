@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <EditText
         android:id="@+id/vehicleStop"
         android:layout_width="348dp"
         android:layout_height="44dp"
@@ -25,7 +25,7 @@
         app:layout_constraintVertical_bias="1.0"
         tools:ignore="TextContrastCheck" />
 
-    <TextView
+    <EditText
         android:id="@+id/vehicleNumber"
         android:layout_width="348dp"
         android:layout_height="44dp"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/vehicleType"
         tools:ignore="TextContrastCheck" />
 
-    <TextView
+    <EditText
         android:id="@+id/vehicleType"
         android:layout_width="348dp"
         android:layout_height="44dp"
@@ -59,7 +59,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
 
-    <TextView
+    <EditText
         android:id="@+id/vehicleStart"
         android:layout_width="348dp"
         android:layout_height="44dp"
