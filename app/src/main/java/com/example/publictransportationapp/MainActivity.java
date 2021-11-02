@@ -2,6 +2,7 @@ package com.example.publictransportationapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference fbdb;
     Transport transport;
 
+
+    private Button openTransportListButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
         fbdb = FirebaseDatabase.getInstance().getReference().child("Transport");
 
+        openTransportListButton = (Button) findViewById(R.id.openTransportListButton);
+        openTransportListButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                openTransportList();
+            }
+        });
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,5 +57,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Data added to database!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void openTransportList()
+    {
+        Intent intent = new Intent(this, transportlist.class);
+        startActivity(intent);
     }
 }

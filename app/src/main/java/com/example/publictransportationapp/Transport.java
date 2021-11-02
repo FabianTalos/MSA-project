@@ -4,6 +4,8 @@ public class Transport {
 
     String type, number, start, stop;
 
+    public Transport(){}
+
     public Transport(String type, String number, String start, String stop)
     {
         this.type = type;
@@ -42,5 +44,15 @@ public class Transport {
 
     public void setStop(String stop) {
         this.stop = stop;
+    }
+
+    @Override
+    public String toString() {
+        return "Transport{" +
+                "type='" + type + '\'' +
+                ", number='" + number + '\'' +
+                ", start='" + start + '\'' +
+                ", stop='" + stop + '\'' +
+                '}';
     }
 }
