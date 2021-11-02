@@ -5,4 +5,9 @@
     <string name="insert_vehicle_type">Insert Vehicle Type</string>
     <string name="insert_vehicle_number">Insert Vehicle Number</string>
     <string name="insert_start_station">Insert Start Station</string>
+    <string name="add_station">Add Station</string>
+    <string name="insert_station_id">Insert Station ID</string>
+    <string name="insert_station_name">Insert Station Name</string>
+    <string name="insert_what_vehicles_stop_here">Insert what vehicles stop here</string>
+    <string name="insert_station_type">Insert Station Type</string>
 </resources>

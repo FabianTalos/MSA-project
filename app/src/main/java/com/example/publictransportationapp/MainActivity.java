@@ -2,6 +2,7 @@ package com.example.publictransportationapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,9 +15,10 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     EditText vehicleType, vehicleNumber, vehicleStart, vehicleStop;
-    Button buttonAdd;
+    Button buttonAddTransport, buttonChange;
     DatabaseReference fbdb;
-    Transport transport;
+
+    float x1, x2, y1, y2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +27,22 @@ public class MainActivity extends AppCompatActivity {
 
         vehicleType = findViewById(R.id.vehicleType);
         vehicleNumber = findViewById(R.id.vehicleNumber);
-        vehicleStart = findViewById(R.id.vehicleStart);
-        vehicleStop = findViewById(R.id.vehicleStop);
-        buttonAdd = (Button)findViewById(R.id.buttonAdd);
+        vehicleStart = findViewById(R.id.stationStart);
+        vehicleStop = findViewById(R.id.stationStop);
+        buttonAddTransport = (Button) findViewById(R.id.buttonAddTransport);
+
+        buttonChange = (Button) findViewById(R.id.buttonChange);
 
         fbdb = FirebaseDatabase.getInstance().getReference().child("Transport");
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        buttonChange.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                changeActivity();
+            }
+        });
+
+        buttonAddTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String type = vehicleType.getText().toString().trim();
@@ -46,5 +57,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Data added to database!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void changeActivity()
+    {
+        Intent intent = new Intent(this, Activity2.class);
+        startActivity(intent);
     }
 }

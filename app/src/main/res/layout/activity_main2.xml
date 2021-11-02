@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Activity2">
 
     <EditText
-        android:id="@+id/vehicleType"
+        android:id="@+id/stationID"
         android:layout_width="348dp"
         android:layout_height="48dp"
         android:layout_marginStart="38dp"
@@ -16,7 +16,7 @@
         android:layout_marginEnd="38dp"
         android:layout_marginRight="38dp"
         android:layout_marginBottom="580dp"
-        android:hint="@string/insert_vehicle_type"
+        android:hint="@string/insert_station_id"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
         tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/vehicleNumber"
+        android:id="@+id/stationName"
         android:layout_width="348dp"
         android:layout_height="48dp"
         android:layout_marginStart="38dp"
@@ -32,16 +32,18 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="38dp"
         android:layout_marginRight="38dp"
-        android:layout_marginBottom="515dp"
-        android:hint="@string/insert_vehicle_number"
+        android:layout_marginBottom="516dp"
+        android:hint="@string/insert_station_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vehicleType"
+        app:layout_constraintTop_toBottomOf="@+id/stationID"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/stationStart"
+        android:id="@+id/stationType"
         android:layout_width="348dp"
         android:layout_height="48dp"
         android:layout_marginStart="38dp"
@@ -49,16 +51,18 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="38dp"
         android:layout_marginRight="38dp"
-        android:layout_marginBottom="450dp"
-        android:hint="@string/insert_start_station"
+        android:layout_marginBottom="452dp"
+        android:hint="@string/insert_station_type"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vehicleNumber"
+        app:layout_constraintTop_toBottomOf="@id/stationName"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/stationStop"
+        android:id="@+id/vehicles"
         android:layout_width="348dp"
         android:layout_height="48dp"
         android:layout_marginStart="38dp"
@@ -66,16 +70,18 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="38dp"
         android:layout_marginRight="38dp"
-        android:layout_marginBottom="385dp"
-        android:hint="@string/insert_stop_station"
+        android:layout_marginBottom="388dp"
+        android:hint="@string/insert_what_vehicles_stop_here"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stationStart"
+        app:layout_constraintTop_toBottomOf="@id/stationType"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="TextContrastCheck" />
 
     <Button
-        android:id="@+id/buttonAddTransport"
+        android:id="@+id/buttonAddStation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="161dp"
@@ -84,20 +90,9 @@
         android:layout_marginEnd="162dp"
         android:layout_marginRight="162dp"
         android:layout_marginBottom="300dp"
-        android:text="Add Transport"
+        android:text="@string/add_station"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stationStop" />
-
-    <Button
-        android:id="@+id/buttonChange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Change Activity"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddTransport" />
-
+        app:layout_constraintTop_toBottomOf="@+id/vehicles" />
 </androidx.constraintlayout.widget.ConstraintLayout>
