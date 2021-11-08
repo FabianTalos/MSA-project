@@ -36,10 +36,8 @@
         android:hint="@string/insert_station_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stationID"
-        app:layout_constraintVertical_bias="1.0"
         tools:ignore="TextContrastCheck" />
 
     <EditText
@@ -55,10 +53,8 @@
         android:hint="@string/insert_station_type"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/stationName"
-        app:layout_constraintVertical_bias="1.0"
         tools:ignore="TextContrastCheck" />
 
     <EditText
@@ -74,10 +70,8 @@
         android:hint="@string/insert_what_vehicles_stop_here"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/stationType"
-        app:layout_constraintVertical_bias="1.0"
         tools:ignore="TextContrastCheck" />
 
     <Button
