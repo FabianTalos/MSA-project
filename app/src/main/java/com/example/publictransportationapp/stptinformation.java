@@ -1,11 +1,10 @@
 package com.example.publictransportationapp;
 
-import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-public class stptinformation  extends AppCompatActivity {
+import android.os.Bundle;
 
+public class stptinformation extends AppCompatActivity {
     public stptinformation() {
     }
 
