@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private Button openTransportListButton;
+    private Button openStptInformationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
 
         fbdb = FirebaseDatabase.getInstance().getReference().child("Transport");
 
+        openStptInformationButton = (Button) findViewById(R.id.openStptInformationButton);
+        openStptInformationButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                openStptInformation();
+            }
+        });
+
         openTransportListButton = (Button) findViewById(R.id.openTransportListButton);
         openTransportListButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -42,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 openTransportList();
             }
         });
+
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
     public void openTransportList()
     {
         Intent intent = new Intent(this, transportlist.class);
+        startActivity(intent);
+    }
+
+    public void openStptInformation()
+    {
+        Intent intent = new Intent(this, stptinformation.class);
         startActivity(intent);
     }
 }

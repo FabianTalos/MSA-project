@@ -47,7 +47,7 @@ public class transportlist extends AppCompatActivity {
                 {
                     Transport transport = dataSnapshot.getValue(Transport.class);
                     list.add(transport);
-                    Log.d("Transport", transport.toString());
+                    //Log.d("Transport", transport.toString());
                 }
                 adapter.notifyDataSetChanged();
             }
