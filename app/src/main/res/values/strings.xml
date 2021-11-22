@@ -10,4 +10,13 @@
     <string name="insert_station_name">Insert Station Name</string>
     <string name="insert_what_vehicles_stop_here">Insert what vehicles stop here</string>
     <string name="insert_station_type">Insert Station Type</string>
+    <string name="home_text">Home</string>
+    <string name="search_text">Search</string>
+    <string name="vehicle_text">Navigate</string>
+    <string name="favorite_text">Favorites</string>
+    <string name="info_text">Info</string>
+    <string name="title_activity_bottom_nav">BottomNavActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

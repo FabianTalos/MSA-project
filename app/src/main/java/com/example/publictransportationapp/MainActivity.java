@@ -21,19 +21,22 @@ import java.io.Console;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText vehicleType, vehicleNumber, vehicleStart, vehicleStop;
-    Button buttonAddTransport, buttonChange;
-    DatabaseReference fbdb;
+    //EditText vehicleType, vehicleNumber, vehicleStart, vehicleStop;
+    //Button buttonAddTransport, buttonChange;
+    //DatabaseReference fbdb;
+
+    BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new VehiclesFragment()).commit();
+        bottomNav.setSelectedItemId(R.id.nav_vehicles);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -59,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    selectedFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
 
             return true;
         }

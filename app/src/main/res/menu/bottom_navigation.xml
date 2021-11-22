@@ -3,27 +3,27 @@
 
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="Home"/>
+        android:icon="@drawable/ic_baseline_home"
+        android:title="@string/home_text"/>
 
     <item
         android:id="@+id/nav_search"
-        android:icon="@drawable/ic_baseline_search_24"
-        android:title="Search"/>
+        android:icon="@drawable/ic_baseline_search"
+        android:title="@string/search_text"/>
 
     <item
         android:id="@+id/nav_vehicles"
-        android:icon="@drawable/ic_baseline_directions_bus_24"
-        android:title="Navigate"/>
+        android:icon="@drawable/ic_baseline_bus"
+        android:title="@string/vehicle_text"/>
 
     <item
         android:id="@+id/nav_favorites"
-        android:icon="@drawable/ic_baseline_favorite_24"
-        android:title="Fav"/>
+        android:icon="@drawable/ic_baseline_favorite"
+        android:title="@string/favorite_text"/>
 
     <item
         android:id="@+id/nav_info"
-        android:icon="@drawable/ic_baseline_info_24"
-        android:title="Info"/>
+        android:icon="@drawable/ic_baseline_info"
+        android:title="@string/info_text"/>
 
 </menu>

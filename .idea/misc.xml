@@ -4,16 +4,24 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.30416666666666664" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/drawable/ic_baseline_bus.xml" value="0.30052083333333335" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/drawable/ic_baseline_favorite.xml" value="0.30052083333333335" />
         <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.30416666666666664" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/drawable/ic_baseline_home.xml" value="0.30052083333333335" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/drawable/ic_baseline_info.xml" value="0.30052083333333335" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/drawable/ic_baseline_search.xml" value="0.30052083333333335" />
         <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.30416666666666664" />
-        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/activity_bottom_nav.xml" value="0.26197916666666665" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/activity_main2.xml" value="0.33" />
         <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/fragment_favorites.xml" value="0.1" />
-        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/fragment_home.xml" value="0.1" />
-        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/fragment_info.xml" value="0.1" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/fragment_home.xml" value="0.18" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/fragment_info.xml" value="0.25" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/fragment_notifications.xml" value="0.2838541666666667" />
         <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/fragment_search.xml" value="0.1" />
-        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/fragment_vehicles.xml" value="0.1" />
-        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/menu/bottom_navigation.xml" value="0.1" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/layout/fragment_vehicles.xml" value="0.22" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2838541666666667" />
+        <entry key="..\:/Users/Fabian/AndroidStudioProjects/PublicTransportationApp/app/src/main/res/menu/bottom_navigation.xml" value="0.33" />
       </map>
     </option>
   </component>
