@@ -5,4 +5,5 @@
     <string name="insert_vehicle_type">Insert Vehicle Type</string>
     <string name="insert_vehicle_number">Insert Vehicle Number</string>
     <string name="insert_start_station">Insert Start Station</string>
+    <string name="title_activity_google_maps">google_maps</string>
 </resources>
