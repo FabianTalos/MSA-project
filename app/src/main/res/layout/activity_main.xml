@@ -27,6 +27,16 @@
         tools:ignore="MissingConstraints" />
 
     <Button
+        android:id="@+id/openStptParserButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="63dp"
+        android:text="Open STPT parser"
+        tools:ignore="MissingConstraints" />
+
+    <Button
         android:id="@+id/openTransportListButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

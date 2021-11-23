@@ -15,4 +15,36 @@ public class ParseItem {
         this.stationName = stationName;
         this.arrivalTime = arrivalTime;
     }
+
+    public String getRouteName() {
+        return routeName;
+    }
+
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
+    }
+
+    public String getTransportName() {
+        return transportName;
+    }
+
+    public void setTransportName(String transportName) {
+        this.transportName = transportName;
+    }
+
+    public String getStationName() {
+        return stationName;
+    }
+
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
 }

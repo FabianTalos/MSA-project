@@ -24,14 +24,14 @@
 
     </ImageView>
 
-    <ImageView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:src="@drawable/gradient"
-            android:gravity="bottom"
-    ></ImageView>
+            android:gravity="bottom" />
 
     <TextView
+        android:id="@+id/textViewID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom"

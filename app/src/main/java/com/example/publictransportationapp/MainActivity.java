@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button openTransportListButton;
     private Button openStptInformationButton;
+    private Button openStptParserButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        openStptParserButton = (Button) findViewById(R.id.openStptParserButton);
+        openStptParserButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                openStptParser();
+            }
+        });
+
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +87,12 @@ public class MainActivity extends AppCompatActivity {
     public void openStptInformation()
     {
         Intent intent = new Intent(this, stptinformation.class);
+        startActivity(intent);
+    }
+
+    public void openStptParser()
+    {
+        Intent intent = new Intent(this, activity_parseSTPT.class);
         startActivity(intent);
     }
 }
