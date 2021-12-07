@@ -1,5 +1,7 @@
 package com.example.publictransportationapp;
 
+import android.util.Log;
+
 public class ParseItem {
     private String routeName;
     private String transportName;
@@ -14,6 +16,9 @@ public class ParseItem {
         this.transportName = transportName;
         this.stationName = stationName;
         this.arrivalTime = arrivalTime;
+
+        Log.d("Initializer", "Initialized routeName: " + routeName + " transportName: " + transportName +
+                " stationName: " + stationName + " arrivalTime: " + arrivalTime);
     }
 
     public String getRouteName() {

@@ -73,11 +73,46 @@ public class activity_parseSTPT extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
+
+            Log.d("Check_function", "Inside doInBackground");
+
             try{
+
                 String url = "http://stpt.ro/info2.html";
-                Document doc = Jsoup.connect(url).get();
-                Log.d("items", "connected");
-                Elements data = doc.select("html.vrmfqqq idc0_334");
+                Document doc = Jsoup.connect(url).followRedirects(false).ignoreContentType(true).get();
+                Elements data = doc.select("html"); //. lqrhlcda idc0_335
+
+                Element iframe = doc.select("iframe").first(); //get frame that leads to STPT actual server
+                String iframeSrc = iframe.attr("src");
+                if(iframeSrc != null) {
+                    Document document = Jsoup.connect(iframeSrc).get(); //connect to their server and start parsing
+
+                    Elements myFrame = document.select("frameset").select("frame");
+
+                    Element stanga = myFrame.get(1);//.attr("name");
+                    Element centru = myFrame.get(2);
+                    Element dreapta = myFrame.get(3);
+
+                    Log.d("Data_print", "Stanga: " + stanga);  //iconite
+                    Log.d("Data_print", "centru: " + centru);  //vehicule
+                    Log.d("Data_print", "dreapta: " + dreapta); //timpi de sosire - statii
+
+                    Elements centruCode = document.select("html > frameset > frameset > frame:nth-child(2)");// > html > body > #apDiv6 > p:nth-child(1) > a:nth-child(1)").attr("title");//.select("#apDiv6 > p:nth-child(1) > a:nth-child(1)").attr("title");
+                    String centruCode2 = document.select("html")
+                            .select("frameset")
+                            .select("frameset")
+                            .select("frame").attr("nth-child(2)");
+                    Log.d("Data_print", "centruCode: " + centruCode);
+                    Log.d("Data_print", "String: " + centruCode2);
+
+                }
+
+                //Log.d("Data_print", "data: " + data);
+                //Log.d("Data_print", "body: " + body);
+                //Log.d("Data_print", "divs: " + divs);
+                //Log.d("Data_print", "myDiv: " + myDiv);
+                //Log.d("Data_print", "content: " + content);
+
                 int size = data.size();
                 for(int i = 0; i < size; i++)
                 {
@@ -85,6 +120,8 @@ public class activity_parseSTPT extends AppCompatActivity {
                             .select("b")
                             .eq(i)
                             .text();
+
+                    Log.d("route_name", "routeName: " + routeName);
                     String stationName = data.select("body.ul.table.tbody.tr.td") //html.vrmfqqq idc0_334
                             .select("b")
                             .eq(i)
