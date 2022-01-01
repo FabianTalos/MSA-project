@@ -1,40 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="126dp"
-        android:layout_marginTop="57dp"
-        android:text="Add new transport"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/openStptInformationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="161dp"
-        android:text="See STPT information"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/openStptParserButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="63dp"
-        android:text="Open STPT parser"
-        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/openTransportListButton"
@@ -43,88 +12,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="127dp"
-        android:layout_marginBottom="244dp"
+        android:layout_marginStart="123dp"
+        android:layout_marginBottom="462dp"
         android:text="See all transports"
         tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/vehicleStop"
-        android:layout_width="348dp"
-        android:layout_height="44dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="239dp"
-        android:hint="@string/insert_stop_station"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vehicleType"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="TextContrastCheck" />
-
-    <EditText
-        android:id="@+id/vehicleNumber"
-        android:layout_width="348dp"
-        android:layout_height="44dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="188dp"
-        android:hint="@string/insert_vehicle_number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vehicleType"
-        tools:ignore="TextContrastCheck" />
-
-    <EditText
-        android:id="@+id/vehicleType"
-        android:layout_width="348dp"
-        android:layout_height="44dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="87dp"
-        android:hint="@string/insert_vehicle_type"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TextContrastCheck" />
-
-    <EditText
-        android:id="@+id/vehicleStart"
-        android:layout_width="348dp"
-        android:layout_height="44dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="137dp"
-        android:layout_marginEnd="46dp"
-        android:hint="@string/insert_start_station"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vehicleType"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="TextContrastCheck"
-        tools:visibility="visible" />
-
-    <Button
-        android:id="@+id/buttonAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="153dp"
-        android:layout_marginTop="353dp"
-        android:text="@string/add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vehicleStop" />
 </RelativeLayout>

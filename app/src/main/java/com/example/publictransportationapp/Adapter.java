@@ -9,7 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.publictransportationapp.model.Transport;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
@@ -32,32 +35,31 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Transport transport = list.get(position);
-        holder.number.setText(transport.getNumber());
-        holder.type.setText(transport.getType());
-        holder.start.setText(transport.getStart());
-        holder.stop.setText(transport.getStop());
-
+        holder.transportType.setText(transport.getTransportType());
+        holder.routeName.setText(transport.getRouteName());
+        holder.directions.setText((CharSequence) transport.getDirections());
+        holder.stations.setText((CharSequence) transport.getStations());
 
     }
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+
+        TextView transportType, routeName, directions, stations; //the items we view inside the item.xml, where id=tvtype for example
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            transportType = itemView.findViewById(R.id.tv_transportType);
+            routeName = itemView.findViewById(R.id.tv_routeName);
+            directions = itemView.findViewById(R.id.tv_directions);
+            stations = itemView.findViewById(R.id.tv_stations);
+        }
+    }
+
 
     @Override
     public int getItemCount() {
         return list.size();
     }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-
-        TextView number, type, start, stop; //the items we view inside the item.xml, where id=tvtype for example
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            number = itemView.findViewById(R.id.tvnumber);
-            type = itemView.findViewById(R.id.tvtype);
-            start = itemView.findViewById(R.id.tvstart);
-            stop = itemView.findViewById(R.id.tvstop);
-
-        }
-    }
-
 }

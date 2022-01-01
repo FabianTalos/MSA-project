@@ -1,51 +1,30 @@
 package com.example.publictransportationapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.publictransportationapp.activity.TransportList;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+//TO DO: GridLayoutManager for transports
 public class MainActivity extends AppCompatActivity {
-
-    EditText vehicleType, vehicleNumber, vehicleStart, vehicleStop;
-    Button buttonAdd;
-    DatabaseReference fbdb;
-    Transport transport;
-
-
-    private Button openTransportListButton;
-    private Button openStptInformationButton;
-    private Button openStptParserButton;
+    DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        vehicleType = findViewById(R.id.vehicleType);
-        vehicleNumber = findViewById(R.id.vehicleNumber);
-        vehicleStart = findViewById(R.id.vehicleStart);
-        vehicleStop = findViewById(R.id.vehicleStop);
-        buttonAdd = (Button)findViewById(R.id.buttonAdd);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        reference = database.getReference().child("transports");
 
-        fbdb = FirebaseDatabase.getInstance().getReference().child("Transport");
-
-        openStptInformationButton = (Button) findViewById(R.id.openStptInformationButton);
-        openStptInformationButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                openStptInformation();
-            }
-        });
-
-        openTransportListButton = (Button) findViewById(R.id.openTransportListButton);
+        Button openTransportListButton = (Button) findViewById(R.id.openTransportListButton);
         openTransportListButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -53,46 +32,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        openStptParserButton = (Button) findViewById(R.id.openStptParserButton);
-        openStptParserButton.setOnClickListener(new View.OnClickListener(){
+        //Maybe useful
+        //Toast.makeText(MainActivity.this, "Data added to database!", Toast.LENGTH_LONG).show();
+        // Get list of transports
+        /*
+        final ArrayList<String> list = new ArrayList<>();
+        final ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.transportlist_item, list); //the xml made for the transport
+        RecyclerView recyclerView = findViewById(R.id.transportList);
+        recyclerView.setAdapter(adapter);
+
+
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                openStptParser();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    list.add(dataSnapshot.getValue().toString());
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+        */
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String type = vehicleType.getText().toString().trim();
-                String number = (vehicleNumber.getText().toString().trim());
-                String start = (vehicleStart.getText().toString().trim());
-                String stop = (vehicleStop.getText().toString().trim());
-
-                Transport transport = new Transport(type, number, start, stop);
-
-                fbdb.push().setValue(transport);
-
-                Toast.makeText(MainActivity.this, "Data added to database!", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     public void openTransportList()
     {
-        Intent intent = new Intent(this, transportlist.class);
+        Intent intent = new Intent(this, TransportList.class);
         startActivity(intent);
     }
 
-    public void openStptInformation()
-    {
-        Intent intent = new Intent(this, stptinformation.class);
-        startActivity(intent);
-    }
-
-    public void openStptParser()
-    {
-        Intent intent = new Intent(this, activity_parseSTPT.class);
-        startActivity(intent);
-    }
 }
