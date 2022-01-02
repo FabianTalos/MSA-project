@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.publictransportationapp.activity.ShowTransports;
 import com.example.publictransportationapp.activity.TransportList;
 import com.example.publictransportationapp.adapter.MapAdapter;
 import com.example.publictransportationapp.model.Station;
@@ -25,18 +26,10 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     DatabaseReference reference;
 
-    ArrayList<Station> listStations1 = new ArrayList<>();
-    ArrayList<Station> listStations2 = new ArrayList<>();
-    MapAdapter mapAdapter;
-    Context mcontext;
-    RecyclerView myRecyclerView;
-    HashMap<String, ArrayList<Station>> stationsMap = new HashMap<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mcontext = this;
         Log.e("check", "Main activity, on create");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         reference = database.getReference().child("transports");
@@ -46,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openTransportList();
+            }
+        });
+
+        Button showTransportsButton = (Button) findViewById(R.id.showTransportsButton);
+        showTransportsButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                openShowTransports();
             }
         });
 
@@ -75,34 +76,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         */
-
-        /* Recycler view stuff*/
-        for(int i = 0; i < 4; i++)
-        {
-            listStations1.add(new Station("Station_1 " + i, "Time_1 " + i));
-            listStations2.add(new Station("Station_2 " + i, "Time_2 " + i));
-        }
-        stationsMap.put("First direction", listStations1);
-        stationsMap.put("Second direction", listStations2);
-        //setContentView(R.layout.activity_main);
-        setContentView(R.layout.recycler_view);
-        myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        if(myRecyclerView == null)
-        {
-            Log.e("check", "Instance is null");
-        }
-        else {
-            myRecyclerView.setLayoutManager(linearLayoutManager);
-            mapAdapter = new MapAdapter(mcontext, stationsMap);
-            myRecyclerView.setAdapter(mapAdapter);
-        }
-
     }
 
     public void openTransportList()
     {
         Intent intent = new Intent(this, TransportList.class);
+        startActivity(intent);
+    }
+
+    public void openShowTransports()
+    {
+        Intent intent = new Intent(this, ShowTransports.class);
         startActivity(intent);
     }
 
