@@ -8,10 +8,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transportList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent"/>
+        <!--
         android:layout_constrainBottom_toBottomOf="parent"
         android:layout_constrainEnd_toEndOf="parent"
         android:layout_constrainStart_toStartOf="parent"
         android:layout_constrainTop_toTopOf="parent"
+
         tools:ignore="MissingConstraints" />
+        -->
 </androidx.constraintlayout.widget.ConstraintLayout>

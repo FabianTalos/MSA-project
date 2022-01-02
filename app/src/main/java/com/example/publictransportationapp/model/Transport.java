@@ -12,7 +12,7 @@ public class Transport {
 
     String transportType, routeName;
     ArrayList<String> directions;
-    Map<String,Station> stations; //Stations = Map(Direction1 : [{Station 1 : time 1}, {Station 2 : time 2}...]
+    Map<String, ArrayList <Station>> stationsMap; //Stations = Map(Direction1 : [{Station 1 : time 1}, {Station 2 : time 2}...]
 
     public Transport(){}
 
@@ -20,7 +20,7 @@ public class Transport {
         this.transportType = transportType;
         this.routeName = routeName;
         this.directions = new ArrayList<>();
-        this.stations = new HashMap<>();
+        this.stationsMap = new HashMap<>();
     }
 
     public void addDirection(String direction){
@@ -32,8 +32,8 @@ public class Transport {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)  //set API lvl to 24
-    public void addStation(String direction, Station station){
-        stations.putIfAbsent(direction, station);
+    public void addStations(String direction, ArrayList <Station> stations){
+        stationsMap.putIfAbsent(direction, stations);
     }
 
     public String getTransportType() {
@@ -52,12 +52,12 @@ public class Transport {
         this.directions = directions;
     }
 
-    public Map<String, Station> getStations() {
-        return stations;
+    public Map<String, ArrayList <Station>>  getStations() {
+        return stationsMap;
     }
 
-    public void setStations(Map<String, Station> stations) {
-        this.stations = stations;
+    public void setStations(Map<String, ArrayList <Station>> stations) {
+        this.stationsMap = stations;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Transport {
                 "transportType='" + transportType + '\'' +
                 ", routeName='" + routeName + '\'' +
                 ", directions=" + directions +
-                ", stations=" + stations +
+                ", stations=" + stationsMap +
                 '}';
     }
 }

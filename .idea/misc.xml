@@ -18,6 +18,9 @@
         <entry key="app/src/main/res/layout/activity_stptinformation.xml" value="0.15670289855072464" />
         <entry key="app/src/main/res/layout/activity_transportlist.xml" value="0.15670289855072464" />
         <entry key="app/src/main/res/layout/item.xml" value="0.15670289855072464" />
+        <entry key="app/src/main/res/layout/list_item_map.xml" value="0.19583333333333333" />
+        <entry key="app/src/main/res/layout/recycler_view.xml" value="0.10644768856447688" />
+        <entry key="app/src/main/res/layout/row_subcat_child.xml" value="0.19583333333333333" />
       </map>
     </option>
   </component>
