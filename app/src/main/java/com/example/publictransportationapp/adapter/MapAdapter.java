@@ -42,7 +42,7 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.MyHolder>{
     @Override
     public MapAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_map, null, false);//wish I knew
-                //LayoutInflater.from(context).inflate(R.layout.list_item_map,parent,false);
+        //LayoutInflater.from(context).inflate(R.layout.list_item_map,parent,false);
 
         return new MyHolder(view);
     }
@@ -54,7 +54,7 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.MyHolder>{
         final boolean isExpanded = expandState.get(position);
 
         Log.e("check", "is expanded? " + isExpanded);   //CHANGE THIS SHIT TO A CORRECT TRUE OR FALSE
-        holder.expandableLayout.setVisibility(1); //isExpanded ? View.VISIBLE : View.GONE
+        holder.expandableLayout.setVisibility(View.VISIBLE); //isExpanded ? View.VISIBLE : View.GONE
         //Log.e("check", "" + stationsMap.get(getHashMapKeyFromIndex(stationsMap, position)).size());
         //llContainer
         holder.llContainer.removeAllViews();

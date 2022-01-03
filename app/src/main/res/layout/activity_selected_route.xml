@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ShowTransports">
+    tools:context=".activity.SelectedRoute">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewAllTransports"
+        android:id="@+id/recyclerViewLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>
