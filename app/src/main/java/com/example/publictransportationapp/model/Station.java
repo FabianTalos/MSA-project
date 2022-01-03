@@ -28,4 +28,12 @@ public class Station {
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
+
+    @Override
+    public String toString() {
+        return "Station{" +
+                "stationName='" + stationName + '\'' +
+                ", arrivalTime='" + arrivalTime + '\'' +
+                '}';
+    }
 }

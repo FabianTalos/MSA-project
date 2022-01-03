@@ -1,27 +1,31 @@
 package com.example.publictransportationapp.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.example.publictransportationapp.R;
 import com.example.publictransportationapp.adapter.MapAdapter;
 import com.example.publictransportationapp.model.Station;
+import com.example.publictransportationapp.model.Transport;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ShowTransports extends AppCompatActivity {
     DatabaseReference reference;
@@ -46,28 +50,22 @@ public class ShowTransports extends AppCompatActivity {
         reference = database.getReference().child("transports");
 
         /* Inside this part, parse the database  */
-        final ArrayList<String> list = new ArrayList<>();
         //final ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.transportlist_item, list); //the xml made for the transport
-        //transports -> bus -> route -> route id + param
+
         reference.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                list.clear();
-                String key = snapshot.getKey();
-                Log.e("Var", "How does it look?: " + snapshot.getKey());
 
                 Iterable<DataSnapshot> transportTypes = snapshot.getChildren();
-                for (DataSnapshot transportType : transportTypes){
-                    Log.e("Var", "transportType: " + transportType);
-                    String something = transportType.getValue().toString();
-                    list.add(something);
-                    Log.e("Var", "Element: " + something);
-                }
+                ArrayList<String> keys = fetchKeys(transportTypes); //get the important key names (bus, tram, etc)
+
+                Map<String, Map<String, ArrayList<Station>>> allTransports = getTransportsFromFB(keys, snapshot);
+
+                Log.e("Var", "All keys: " + allTransports.keySet());
+                Log.e("Var", "All values: " + allTransports.values());
+
                 //adapter.notifyDataSetChanged();
-                for(String string : list)
-                {
-                    Log.e("Var", "List component: " + string);
-                }
             }
 
             @Override
@@ -75,11 +73,6 @@ public class ShowTransports extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
 
 
         /* Inside this part, parse the database  */
@@ -104,5 +97,72 @@ public class ShowTransports extends AppCompatActivity {
             mapAdapter = new MapAdapter(mcontext, stationsMap);
             myRecyclerView.setAdapter(mapAdapter);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private Map<String, Map<String, ArrayList<Station>>> getTransportsFromFB(ArrayList<String> transportTypeKeys, DataSnapshot snapshot) {
+        ArrayList<Transport> transportList = new ArrayList<>();
+
+        String transportTypeFirebase, routeNameFirebase;
+        ArrayList<String> directionsFirebase;
+        ArrayList<Station> stationsFirebase = new ArrayList<>();
+        Map<String, Map<String, ArrayList<Station>>> allTransports = new HashMap<>();
+        Map<String, ArrayList <Station>> stationsMapFirebase = new HashMap<>();
+
+        for(String transportTypeKey : transportTypeKeys)
+        {
+            //Log.e("Var", "For key: " + transportTypeKey); //transport type
+            transportTypeFirebase = transportTypeKey;
+
+            Iterable<DataSnapshot> values = snapshot.child(transportTypeKey).child("route").getChildren();
+            ArrayList<String> routeNames = fetchKeys(values); //For each transport type, get the transport routes (ex: 33b, e8 etc)
+
+            for(String route : routeNames)
+            {
+                routeNameFirebase = route;
+
+                Iterable<DataSnapshot> actualTransports = snapshot.child(transportTypeFirebase).child("route").child(routeNameFirebase).child("data").getChildren();
+                directionsFirebase = fetchKeys(actualTransports);
+
+                for(String direction : directionsFirebase)
+                {
+                    Iterable<DataSnapshot> actualStations = snapshot.
+                            child(transportTypeFirebase).child("route").
+                            child(routeNameFirebase).child("data").child(direction).getChildren();
+                    for(DataSnapshot station : actualStations)
+                    {
+                        //Log.e("Var", "Key: " + station.getKey()); //0, 1, 2 ...
+                        String stationName = station.child("0").getValue().toString();
+                        String arrivalTime = station.child("1").getValue().toString();
+                        Station tempStation = new Station(stationName, arrivalTime);
+                        stationsFirebase.add(tempStation);
+                    }
+                    stationsMapFirebase.putIfAbsent(direction, stationsFirebase);
+                }
+            }
+            allTransports.putIfAbsent(transportTypeKey, stationsMapFirebase);
+        }
+
+        return allTransports;
+    }
+
+    private ArrayList<String> fetchKeys(Iterable<DataSnapshot> values) {
+        ArrayList<String> keys = new ArrayList<>();
+        for(DataSnapshot value : values)
+        {
+            keys.add(value.getKey());
+        }
+        return keys;
+    }
+
+    private void printHour()
+    {
+        Formatter formate = new Formatter();
+        Calendar gfg_calender = Calendar.getInstance();
+        formate = new Formatter();
+        formate.format("%tl:%tM", gfg_calender,
+                gfg_calender);
+
+        Log.e("Var", "Time: " + formate);
     }
 }
