@@ -97,9 +97,37 @@ public class SelectedRoute extends AppCompatActivity {
     }
 
     private ArrayList<String> fetchDirectionsForGivenRoute(String routeName, String routeType, DataSnapshot snapshot) {
-
+        ArrayList<String> directions = new ArrayList<>();
+        DataSnapshot dataSnapshot = snapshot.child(routeType).child("route").child(routeName).child("data");
+        for(DataSnapshot child : dataSnapshot.getChildren()) //for this route, we will get to following directions
+        {
+            //Log.e("MainTag", "Child: " + child.getKey());
+            directions.add(child.getKey());
+        }
+        return directions;
     }
 
     private ArrayList<Station> fetchStationsForGivenDirection(String routeName, String routeType, String direction, DataSnapshot snapshot) {
+        ArrayList<Station> stations = new ArrayList<>();
+        DataSnapshot dataSnapshot = snapshot.child(routeType).child("route").child(routeName).child("data").child(direction);
+        for(DataSnapshot child : dataSnapshot.getChildren()) //for each direction, we have a list of stations:times
+        {
+            DataSnapshot subChild = dataSnapshot.child(child.getKey()); //each subchild of a direction is split into a station and a time
+            Station station = new Station();
+            for(DataSnapshot value : subChild.getChildren())
+            {
+                if(value.getKey().equals("0"))      //if the child has key 0, it's a station,
+                {
+                    station.setStationName(value.getValue().toString());
+                }
+                else                                //else, it's a time
+                {
+                    station.setArrivalTime(value.getValue().toString());
+                }
+            }
+            stations.add(station);  //Add the new created station to the list of stations
+        }
+
+        return stations;
     }
 }
