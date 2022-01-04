@@ -4,7 +4,10 @@ import static com.example.publictransportationapp.Tools.UsefulMethods.fetchKeys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -12,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.publictransportationapp.R;
 import com.example.publictransportationapp.Tools.FirebaseManager;
+import com.example.publictransportationapp.adapter.MapAdapter;
+import com.example.publictransportationapp.adapter.RouteAdapter;
 import com.example.publictransportationapp.model.Station;
 import com.example.publictransportationapp.model.Transport;
 import com.google.firebase.database.DataSnapshot;
@@ -25,12 +30,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SelectedRoute extends AppCompatActivity {
-
+    Context mcontext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_route);
-
+        mcontext = this;
         TextView routeName = findViewById(R.id.routeName);
 
         String routePlaceholder = "Route not set";
@@ -49,7 +54,25 @@ public class SelectedRoute extends AppCompatActivity {
                 Iterable<DataSnapshot> iterableTransportTypes = snapshot.getChildren();
                 ArrayList<String> transportTypes = fetchKeys(iterableTransportTypes);
                 Transport selectedTransport = fetchDataForTransportGivenName(finalRouteName, transportTypes, snapshot);
-                Log.e("MainTag", "selectedTransport " + selectedTransport);
+                //might need another thread to handle this fetching of data
+
+                //Log.e("MainTag", "selectedTransport " + selectedTransport);
+                RouteAdapter routeAdapter;
+                RecyclerView myRecyclerView;
+
+                setContentView(R.layout.recycler_view);
+                myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                if(myRecyclerView == null)
+                {
+                    Log.e("MainTag", "Not good");
+                }
+                else {
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
+                    myRecyclerView.setLayoutManager(linearLayoutManager);
+                    Log.e("MainTag", "Good");
+                    routeAdapter = new RouteAdapter(mcontext, selectedTransport);
+                    myRecyclerView.setAdapter(routeAdapter);
+                }
             }
 
             @Override
@@ -84,7 +107,7 @@ public class SelectedRoute extends AppCompatActivity {
         transport.setTransportType(routeType);  //set type of transport
 
         ArrayList<String> directions = fetchDirectionsForGivenRoute(routeName, routeType, snapshot);
-        Map<String, ArrayList <Station>> stationsMap = new HashMap<>();
+        HashMap<String, ArrayList <Station>> stationsMap = new HashMap<>();
         ArrayList<Station> stationsForGivenDirection;
         for(String direction : directions) {
             transport.addDirection(direction);  //update list of directions inside the transport variable we return

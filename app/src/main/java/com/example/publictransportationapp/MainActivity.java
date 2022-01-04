@@ -8,7 +8,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.publictransportationapp.activity.AllTransportsOld;
 import com.example.publictransportationapp.activity.ShowTransports;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,25 +35,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button showTransportsButton = (Button) findViewById(R.id.selectedRouteButton);
-        showTransportsButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                openShowTransports();
-            }
-        });
 
     }
 
     public void openTransportList()
     {
         Intent intent = new Intent(this, ShowTransports.class);
-        startActivity(intent);
-    }
-
-    public void openShowTransports()
-    {
-        Intent intent = new Intent(this, AllTransportsOld.class);
         startActivity(intent);
     }
 

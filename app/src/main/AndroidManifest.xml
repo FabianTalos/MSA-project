@@ -23,9 +23,6 @@
         <activity
             android:name=".activity.ShowTransports"
             android:exported="false" />
-        <activity
-            android:name=".activity.AllTransportsOld"
-            android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

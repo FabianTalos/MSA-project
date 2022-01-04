@@ -12,7 +12,7 @@ public class Transport {
 
     String transportType, routeName;
     ArrayList<String> directions = new ArrayList<>();
-    Map<String, ArrayList <Station>> stationsMap = new HashMap<>(); //Stations = Map(Direction1 : [{Station 1 : time 1}, {Station 2 : time 2}...]
+    HashMap<String, ArrayList <Station>> stationsMap = new HashMap<>(); //Stations = Map(Direction1 : [{Station 1 : time 1}, {Station 2 : time 2}...]
 
     public Transport(){}
 
@@ -62,7 +62,7 @@ public class Transport {
         return stationsMap;
     }
 
-    public void setStations(Map<String, ArrayList <Station>> stations) {
+    public void setStations(HashMap<String, ArrayList <Station>> stations) {
         this.stationsMap = stations;
     }
 
@@ -74,5 +74,15 @@ public class Transport {
                 ", directions=" + directions +
                 ", stations=" + stationsMap +
                 '}';
+    }
+
+    public ArrayList<Station> getStations(String direction) {
+        if(stationsMap.containsKey(direction))
+            return stationsMap.get(direction);
+        return null;
+    }
+    public HashMap<String, ArrayList<Station>> getStationsMap()
+    {
+        return this.stationsMap;
     }
 }

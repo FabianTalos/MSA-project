@@ -12,21 +12,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="123dp"
-        android:layout_marginBottom="462dp"
+        android:layout_marginStart="125dp"
+        android:layout_marginBottom="330dp"
         android:text="See all transports"
         tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/selectedRouteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="66dp"
-        android:layout_marginBottom="258dp"
-        android:text="Selected route example, needs work"
-        tools:ignore="MissingConstraints" />
 
 </RelativeLayout>

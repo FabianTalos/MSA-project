@@ -17,7 +17,7 @@ public class UsefulMethods {
         return keys;
     }
 
-    private static String getHashMapKeyFromIndex(HashMap hashMap, int index) {
+    public static String getHashMapKeyFromIndex(HashMap hashMap, int index) {
 
         String key = null;
         HashMap<String, Object> hs = hashMap;
