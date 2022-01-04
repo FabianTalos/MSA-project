@@ -1,10 +1,15 @@
 package com.example.publictransportationapp.activity;
 
 import static com.example.publictransportationapp.Tools.UsefulMethods.fetchKeys;
+import static com.example.publictransportationapp.adapter.MapAdapter.getHashMapKeyFromIndex;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +31,6 @@ public class ShowTransports extends AppCompatActivity {
     TransportsAdapter transportsAdapter;
     Context mcontext;
     RecyclerView myRecyclerView;
-
     public ShowTransports() {
     }
 
@@ -35,7 +39,6 @@ public class ShowTransports extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_transports);
         mcontext = this;
-        //Toast.makeText(ShowTransports.this, "Inside show transports", Toast.LENGTH_LONG).show();
 
         //Fetch Real data
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -58,9 +61,6 @@ public class ShowTransports extends AppCompatActivity {
                     Log.e("MainTag", "Not good");
                 }
                 else {
-                    //Log.e("MainTag", "Good");
-                    //GridLayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),3);
-                    //myRecyclerView.setLayoutManager(mLayoutManager);
 
                     myRecyclerView.setLayoutManager(linearLayoutManager);
                     transportsAdapter = new TransportsAdapter(realRoutes, mcontext);
@@ -96,4 +96,13 @@ public class ShowTransports extends AppCompatActivity {
         return routes;
     }
 
+    public void onClickOpenSelectedRoute(View view)
+    {
+        TextView routeName = view.findViewById(R.id.tv_routeName);
+        //Log.e("MainTag", "Clicked " + routeName.getText());
+        Intent intent = new Intent(getApplicationContext(), SelectedRoute.class);
+        intent.putExtra("routeName", routeName.getText());
+
+        startActivity(intent);
+    }
 }

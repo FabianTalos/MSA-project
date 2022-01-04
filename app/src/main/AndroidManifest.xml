@@ -18,10 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activity.SelectedRoute"
+            android:exported="false" />
+        <activity
             android:name=".activity.ShowTransports"
             android:exported="false" />
         <activity
-            android:name=".activity.SelectedRoute"
+            android:name=".activity.AllTransportsOld"
             android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -35,9 +38,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".activity.TransportList"
-            android:exported="false" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

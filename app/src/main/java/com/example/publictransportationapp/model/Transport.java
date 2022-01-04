@@ -11,16 +11,14 @@ import java.util.Map;
 public class Transport {
 
     String transportType, routeName;
-    ArrayList<String> directions;
-    Map<String, ArrayList <Station>> stationsMap; //Stations = Map(Direction1 : [{Station 1 : time 1}, {Station 2 : time 2}...]
+    ArrayList<String> directions = new ArrayList<>();
+    Map<String, ArrayList <Station>> stationsMap = new HashMap<>(); //Stations = Map(Direction1 : [{Station 1 : time 1}, {Station 2 : time 2}...]
 
     public Transport(){}
 
     public Transport(String transportType, String routeName) {
         this.transportType = transportType;
         this.routeName = routeName;
-        this.directions = new ArrayList<>();
-        this.stationsMap = new HashMap<>();
     }
 
     public void addDirection(String direction){
@@ -34,6 +32,14 @@ public class Transport {
     @RequiresApi(api = Build.VERSION_CODES.N)  //set API lvl to 24
     public void addStations(String direction, ArrayList <Station> stations){
         stationsMap.putIfAbsent(direction, stations);
+    }
+
+    public void setTransportType(String transportType) {
+        this.transportType = transportType;
+    }
+
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
     }
 
     public String getTransportType() {

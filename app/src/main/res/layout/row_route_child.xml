@@ -14,7 +14,13 @@
             android:id="@+id/tv_routeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onClickOpenSelectedRoute"
+
             />
 
+        <TextView
+            android:id="@+id/tv_transportType"
+            android:visibility="invisible"
+            />
     </GridLayout>
 </RelativeLayout>

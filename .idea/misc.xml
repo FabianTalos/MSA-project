@@ -16,6 +16,7 @@
         <entry key="app/src/main/res/drawable/ic_arrow_drop_down_black_24dp.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/activity_parse_stpt.xml" value="0.19583333333333333" />
+        <entry key="app/src/main/res/layout/activity_selected_route.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/activity_show_transports.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/activity_stptinformation.xml" value="0.15670289855072464" />
         <entry key="app/src/main/res/layout/activity_transportlist.xml" value="0.15670289855072464" />

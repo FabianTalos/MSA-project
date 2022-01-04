@@ -8,9 +8,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.publictransportationapp.activity.SelectedRoute;
+import com.example.publictransportationapp.activity.AllTransportsOld;
 import com.example.publictransportationapp.activity.ShowTransports;
-import com.example.publictransportationapp.activity.TransportList;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
         Log.e("MainTag", "Main activity, on create");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         reference = database.getReference().child("transports");
+
+
+
 
         Button openTransportListButton = (Button) findViewById(R.id.openTransportListButton);
         openTransportListButton.setOnClickListener(new View.OnClickListener(){
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void openShowTransports()
     {
-        Intent intent = new Intent(this, SelectedRoute.class);
+        Intent intent = new Intent(this, AllTransportsOld.class);
         startActivity(intent);
     }
 

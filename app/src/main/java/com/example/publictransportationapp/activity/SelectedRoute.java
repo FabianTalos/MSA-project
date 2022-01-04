@@ -1,17 +1,19 @@
 package com.example.publictransportationapp.activity;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
+import static com.example.publictransportationapp.Tools.UsefulMethods.fetchKeys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.publictransportationapp.R;
-import com.example.publictransportationapp.adapter.MapAdapter;
+import com.example.publictransportationapp.Tools.FirebaseManager;
 import com.example.publictransportationapp.model.Station;
+import com.example.publictransportationapp.model.Transport;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,68 +25,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SelectedRoute extends AppCompatActivity {
-    DatabaseReference reference;
-
-    MapAdapter mapAdapter;
-    Context mcontext;
-    RecyclerView myRecyclerView;
-    HashMap<String, HashMap<String, ArrayList<Station>>> allTransports;
-
-    public SelectedRoute() {
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_route);
 
-        mcontext = this;
-        Log.e("check", "ShowTransports activity, on create");
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        reference = database.getReference().child("transports");
+        TextView routeName = findViewById(R.id.routeName);
 
-        //final ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.transportlist_item, list); //the xml made for the transport
+        String routePlaceholder = "Route not set";
+        Bundle extras = getIntent().getExtras(); //get the info passed to the intent from inside ShowTransports -> onClickOpenSelectedRoute
+        if(extras != null)
+        {
+            routePlaceholder = extras.getString("routeName"); //get the value we need by sending corresponding key
+        }
+        routeName.setText(routePlaceholder);  //setText for the view of the SelectedRoute (activity_selected_route)
 
-        reference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference transportsReference = FirebaseManager.getTransportsReference();   //connect to database and get the times for this specific transport (given its name)
+        String finalRouteName = routePlaceholder;
+        transportsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.e("Var", "Good");
-                Iterable<DataSnapshot> transportTypes = snapshot.getChildren();
-                ArrayList<String> keys = fetchKeys(transportTypes); //get the important key names (bus, tram, etc)
-
-                allTransports = getTransportsFromFB(keys, snapshot);
-
-                ArrayList<HashMap<String, ArrayList<Station>>> stationMaps = new ArrayList();
-                //Log.e("Var", "Size: " + allTransports.size());
-                for (Map.Entry<String, HashMap<String, ArrayList<Station>>> pair : allTransports.entrySet()) {
-                    Log.e("Var", "Key allTransports: " + pair.getKey());
-                    Log.e("Var", "Values allTransports: " + pair.getValue());
-                    HashMap<String, ArrayList<Station>> stationsByDirection = pair.getValue();
-                    for (String key : stationsByDirection.keySet())
-                    {
-                        Log.e("Var", "Key direction: " + key);
-                        //Log.e("Var", "Values: " + stationsByDirection.get(key));
-
-
-                    }
-                    stationMaps.add(stationsByDirection);
-                }
-
-                setContentView(R.layout.recycler_view);
-                myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
-                if(myRecyclerView == null)
-                {
-                    Log.e("Var", "Not good");
-                }
-                else {
-                    myRecyclerView.setLayoutManager(linearLayoutManager);
-                    // mapAdapter = new MapAdapter(mcontext, stationsMap);
-                    //Log.e("Var", "Good");
-                    mapAdapter = new MapAdapter(mcontext, stationMaps.get(0));
-                    myRecyclerView.setAdapter(mapAdapter);
-                }
-                //adapter.notifyDataSetChanged();
+                Iterable<DataSnapshot> iterableTransportTypes = snapshot.getChildren();
+                ArrayList<String> transportTypes = fetchKeys(iterableTransportTypes);
+                Transport selectedTransport = fetchDataForTransportGivenName(finalRouteName, transportTypes, snapshot);
+                Log.e("MainTag", "selectedTransport " + selectedTransport);
             }
 
             @Override
@@ -94,61 +59,47 @@ public class SelectedRoute extends AppCompatActivity {
         });
     }
 
-    private HashMap<String, HashMap<String, ArrayList<Station>>> getTransportsFromFB(ArrayList<String> transportTypeKeys, DataSnapshot snapshot) {
-
-        HashMap<String, HashMap<String, ArrayList<Station>>> allTransports = new HashMap<>();
-
-        String transportTypeFirebase, routeNameFirebase;
-        ArrayList<String> directionsFirebase;
-        ArrayList<Station> stationsFirebase = new ArrayList<>();
-        HashMap<String, ArrayList <Station>> stationsMapFirebase = new HashMap<>();
-
-        for(String transportTypeKey : transportTypeKeys)
+    private Transport fetchDataForTransportGivenName(String routeName, ArrayList<String> transportTypes, DataSnapshot snapshot) {
+        Transport transport = new Transport();
+        transport.setRouteName(routeName);      //set name of transport (ex: 33b, e8 etc)
+        String routeType = "";
+        int found = 0;
+        for(String transportType : transportTypes)
         {
-            transportTypeFirebase = transportTypeKey;
-
-            Iterable<DataSnapshot> values = snapshot.child(transportTypeKey).child("route").getChildren();
+            Iterable<DataSnapshot> values = snapshot.child(transportType).child("route").getChildren();
             ArrayList<String> routeNames = fetchKeys(values); //For each transport type, get the transport routes (ex: 33b, e8 etc)
 
-            for(String route : routeNames)
+            if(routeNames.contains(routeName)) //if our transport was inside this category of transports, retrieve that category
             {
-                routeNameFirebase = route;
-
-                Iterable<DataSnapshot> actualTransports = snapshot.child(transportTypeFirebase).child("route").child(routeNameFirebase).child("data").getChildren();
-                directionsFirebase = fetchKeys(actualTransports);
-
-                for(String direction : directionsFirebase)
-                {
-                    Iterable<DataSnapshot> actualStations = snapshot.
-                            child(transportTypeFirebase).child("route").
-                            child(routeNameFirebase).child("data").child(direction).getChildren();
-                    for(DataSnapshot station : actualStations)
-                    {
-                        //Log.e("Var", "Key: " + station.getKey()); //0, 1, 2 ...
-                        String stationName = station.child("0").getValue().toString();
-                        String arrivalTime = station.child("1").getValue().toString();
-                        Station tempStation = new Station(stationName, arrivalTime);
-                        stationsFirebase.add(tempStation);
-                    }
-                    if(!stationsMapFirebase.containsKey(direction)) {
-                        stationsMapFirebase.put(direction, stationsFirebase);
-                    }
-                }
-            }
-            if(!allTransports.containsKey(transportTypeKey)) {
-                allTransports.put(transportTypeKey, stationsMapFirebase);
+                routeType = transportType;
+                found = 1;
+                break;
             }
         }
+        if(found == 0) //some kind of problem occurred while parsing the database, safe to quit
+        {
+            Log.e("MainTag", "Problem fetching transport type for given transport name");
+            return null;
+        }
+        transport.setTransportType(routeType);  //set type of transport
 
-        return allTransports;
+        ArrayList<String> directions = fetchDirectionsForGivenRoute(routeName, routeType, snapshot);
+        Map<String, ArrayList <Station>> stationsMap = new HashMap<>();
+        ArrayList<Station> stationsForGivenDirection;
+        for(String direction : directions) {
+            transport.addDirection(direction);  //update list of directions inside the transport variable we return
+            stationsForGivenDirection = fetchStationsForGivenDirection(routeName, routeType, direction, snapshot);
+            stationsMap.put(direction, stationsForGivenDirection);
+        }
+
+        transport.setStations(stationsMap); //finally, update the stations for this transport
+        return transport;
     }
 
-    private ArrayList<String> fetchKeys(Iterable<DataSnapshot> values) {
-        ArrayList<String> keys = new ArrayList<>();
-        for(DataSnapshot value : values)
-        {
-            keys.add(value.getKey());
-        }
-        return keys;
+    private ArrayList<String> fetchDirectionsForGivenRoute(String routeName, String routeType, DataSnapshot snapshot) {
+
+    }
+
+    private ArrayList<Station> fetchStationsForGivenDirection(String routeName, String routeType, String direction, DataSnapshot snapshot) {
     }
 }
