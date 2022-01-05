@@ -1,13 +1,11 @@
 package com.example.publictransportationapp.activity;
 
 import static com.example.publictransportationapp.Tools.UsefulMethods.fetchKeys;
-import static com.example.publictransportationapp.adapter.MapAdapter.getHashMapKeyFromIndex;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 

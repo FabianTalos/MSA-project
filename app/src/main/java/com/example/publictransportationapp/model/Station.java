@@ -1,8 +1,6 @@
 package com.example.publictransportationapp.model;
 
-import java.util.Date;
-
-public class Station {
+public class Station implements ItemInterface {
     String stationName;
     String arrivalTime;
 
@@ -35,5 +33,10 @@ public class Station {
                 "stationName='" + stationName + '\'' +
                 ", arrivalTime='" + arrivalTime + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean isSection() {
+        return false;
     }
 }

@@ -4,34 +4,34 @@ import static com.example.publictransportationapp.Tools.UsefulMethods.fetchKeys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.publictransportationapp.R;
 import com.example.publictransportationapp.Tools.FirebaseManager;
-import com.example.publictransportationapp.adapter.MapAdapter;
-import com.example.publictransportationapp.adapter.RouteAdapter;
-import com.example.publictransportationapp.adapter.RouteAdapter_2;
+import com.example.publictransportationapp.model.GroupDirectionModel;
+import com.example.publictransportationapp.model.ItemInterface;
+import com.example.publictransportationapp.adapter.RouteMultiAdapter;
 import com.example.publictransportationapp.model.Station;
 import com.example.publictransportationapp.model.Transport;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class SelectedRoute extends AppCompatActivity {
     Context mcontext;
+    ArrayList<ItemInterface> mStationsAndSectionList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +57,7 @@ public class SelectedRoute extends AppCompatActivity {
                 Transport selectedTransport = fetchDataForTransportGivenName(finalRouteName, transportTypes, snapshot);
                 //might need another thread to handle this fetching of data
 
-                //Log.e("MainTag", "selectedTransport " + selectedTransport);
-                RouteAdapter routeAdapter;
                 RecyclerView myRecyclerView;
-
                 myRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewSelectedRoute);
 
                 if(myRecyclerView == null)
@@ -68,18 +65,37 @@ public class SelectedRoute extends AppCompatActivity {
                     Log.e("MainTag", "Not good");
                 }
                 else {
+
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
                     myRecyclerView.setLayoutManager(linearLayoutManager);
-                    Log.e("MainTag", "Good");
-                    RouteAdapter_2 routeAdapter_2;
-
                     String routeName = selectedTransport.getRouteName();
-                    String direction = selectedTransport.getDirections().get(0);
-                    ArrayList<Station> stations = selectedTransport.getStations(direction);
+                    mStationsAndSectionList = new ArrayList<>();
+                    ArrayList<String> directions = selectedTransport.getDirections();
+                    for(String direction : directions)
+                    {
+                        ArrayList<Station> stationsList = selectedTransport.getStations(direction);
+                        getSectionalList(stationsList, mStationsAndSectionList, direction);
+
+                    }
+                    RouteMultiAdapter multiAdapter;
                     myRecyclerView.setHasFixedSize(true);
-                    routeAdapter_2 = new RouteAdapter_2(mcontext, routeName, direction, stations);
-                    //routeAdapter = new RouteAdapter(mcontext, selectedTransport.getRouteName(), selectedTransport.getDirections(), selectedTransport.getStationsMap());
-                    myRecyclerView.setAdapter(routeAdapter_2);
+                    final GridLayoutManager gridLayoutManager = new GridLayoutManager(mcontext, 1);
+
+
+
+                    multiAdapter = new RouteMultiAdapter(mStationsAndSectionList, mcontext);
+                    gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                        @Override
+                        public int getSpanSize(int position) {
+                            if (RouteMultiAdapter.SECTION_VIEW == multiAdapter.getItemViewType(position)) {
+                                return 1;
+                            }
+                            return 1;
+                        }
+                    });
+                    myRecyclerView.setLayoutManager(gridLayoutManager);
+                    myRecyclerView.setAdapter(multiAdapter);
+
                 }
             }
 
@@ -161,4 +177,27 @@ public class SelectedRoute extends AppCompatActivity {
 
         return stations;
     }
+
+    private void getSectionalList(ArrayList<Station> stationsList, ArrayList<ItemInterface> mStationsAndSectionList, String direction) {
+
+        String lastHeader = "";
+
+        int size = stationsList.size();
+
+        for (int i = 0; i < size; i++) {
+
+            Station station = stationsList.get(i);
+            String header = direction;
+
+            if (!TextUtils.equals(lastHeader, header)) {
+                lastHeader = header;
+
+                mStationsAndSectionList.add(new GroupDirectionModel(header));
+            }
+
+            mStationsAndSectionList.add(station);
+        }
+    }
+
+
 }
