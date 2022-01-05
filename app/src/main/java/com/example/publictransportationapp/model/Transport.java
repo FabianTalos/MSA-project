@@ -58,9 +58,6 @@ public class Transport {
         this.directions = directions;
     }
 
-    public Map<String, ArrayList <Station>>  getStations() {
-        return stationsMap;
-    }
 
     public void setStations(HashMap<String, ArrayList <Station>> stations) {
         this.stationsMap = stations;

@@ -17,6 +17,7 @@ import com.example.publictransportationapp.R;
 import com.example.publictransportationapp.Tools.FirebaseManager;
 import com.example.publictransportationapp.adapter.MapAdapter;
 import com.example.publictransportationapp.adapter.RouteAdapter;
+import com.example.publictransportationapp.adapter.RouteAdapter_2;
 import com.example.publictransportationapp.model.Station;
 import com.example.publictransportationapp.model.Transport;
 import com.google.firebase.database.DataSnapshot;
@@ -60,8 +61,8 @@ public class SelectedRoute extends AppCompatActivity {
                 RouteAdapter routeAdapter;
                 RecyclerView myRecyclerView;
 
-                setContentView(R.layout.recycler_view);
-                myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                myRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewSelectedRoute);
+
                 if(myRecyclerView == null)
                 {
                     Log.e("MainTag", "Not good");
@@ -70,8 +71,15 @@ public class SelectedRoute extends AppCompatActivity {
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
                     myRecyclerView.setLayoutManager(linearLayoutManager);
                     Log.e("MainTag", "Good");
-                    routeAdapter = new RouteAdapter(mcontext, selectedTransport);
-                    myRecyclerView.setAdapter(routeAdapter);
+                    RouteAdapter_2 routeAdapter_2;
+
+                    String routeName = selectedTransport.getRouteName();
+                    String direction = selectedTransport.getDirections().get(0);
+                    ArrayList<Station> stations = selectedTransport.getStations(direction);
+                    myRecyclerView.setHasFixedSize(true);
+                    routeAdapter_2 = new RouteAdapter_2(mcontext, routeName, direction, stations);
+                    //routeAdapter = new RouteAdapter(mcontext, selectedTransport.getRouteName(), selectedTransport.getDirections(), selectedTransport.getStationsMap());
+                    myRecyclerView.setAdapter(routeAdapter_2);
                 }
             }
 
