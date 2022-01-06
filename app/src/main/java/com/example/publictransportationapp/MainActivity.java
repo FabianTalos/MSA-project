@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_vehicles:
                     selectedFragment = new VehiclesFragment();
-
                     Intent intent = new Intent(MainActivity.this, ShowTransports.class);
                     startActivity(intent);
                     break;

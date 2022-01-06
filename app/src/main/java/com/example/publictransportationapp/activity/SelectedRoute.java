@@ -181,11 +181,8 @@ public class SelectedRoute extends AppCompatActivity {
     private void getSectionalList(ArrayList<Station> stationsList, ArrayList<ItemInterface> mStationsAndSectionList, String direction) {
 
         String lastHeader = "";
-
         int size = stationsList.size();
-
         for (int i = 0; i < size; i++) {
-
             Station station = stationsList.get(i);
             String header = direction;
 
@@ -194,7 +191,6 @@ public class SelectedRoute extends AppCompatActivity {
 
                 mStationsAndSectionList.add(new GroupDirectionModel(header));
             }
-
             mStationsAndSectionList.add(station);
         }
     }
