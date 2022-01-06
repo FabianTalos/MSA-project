@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,16 +16,13 @@ import com.example.publictransportationapp.fragments.HomeFragment;
 import com.example.publictransportationapp.fragments.SearchFragment;
 import com.example.publictransportationapp.fragments.FavoritesFragment;
 import com.example.publictransportationapp.fragments.InfoFragment;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 //TO DO: GridLayoutManager for transports
 public class MainActivity extends AppCompatActivity {
-    DatabaseReference reference;
 
     BottomNavigationView bottomNav;
-    private final static String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
