@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Public Transportation App</string>
+    <string name="add">ADD</string>
+    <string name="insert_stop_station">Insert Stop Station</string>
+    <string name="insert_vehicle_type">Insert Vehicle Type</string>
+    <string name="insert_vehicle_number">Insert Vehicle Number</string>
+    <string name="insert_start_station">Insert Start Station</string>
+    <string name="title_activity_google_maps">google_maps</string>
+    <string name="home_text">Home</string>
+    <string name="search_text">Search</string>
+    <string name="vehicle_text">Navigate</string>
+    <string name="favorite_text">Favorites</string>
+    <string name="info_text">Info</string>
+</resources>
