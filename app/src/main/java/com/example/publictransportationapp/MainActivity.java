@@ -16,10 +16,8 @@ import com.example.publictransportationapp.fragments.HomeFragment;
 import com.example.publictransportationapp.fragments.SearchFragment;
 import com.example.publictransportationapp.fragments.FavoritesFragment;
 import com.example.publictransportationapp.fragments.InfoFragment;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-//TO DO: GridLayoutManager for transports
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNav;
