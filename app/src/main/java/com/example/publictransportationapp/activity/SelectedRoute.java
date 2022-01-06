@@ -2,23 +2,27 @@ package com.example.publictransportationapp.activity;
 
 import static com.example.publictransportationapp.Tools.UsefulMethods.fetchKeys;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.TextView;
-
 import com.example.publictransportationapp.R;
 import com.example.publictransportationapp.Tools.FirebaseManager;
+import com.example.publictransportationapp.Tools.UserPreferences;
+import com.example.publictransportationapp.adapter.RouteMultiAdapter;
+import com.example.publictransportationapp.model.FavouriteRoute;
 import com.example.publictransportationapp.model.GroupDirectionModel;
 import com.example.publictransportationapp.model.ItemInterface;
-import com.example.publictransportationapp.adapter.RouteMultiAdapter;
 import com.example.publictransportationapp.model.Station;
 import com.example.publictransportationapp.model.Transport;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +34,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SelectedRoute extends AppCompatActivity {
+    private Button saveBtn, addBtn;
+    private UserPreferences userPreferences;
+
     Context mcontext;
     ArrayList<ItemInterface> mStationsAndSectionList;
     @Override
@@ -46,9 +53,39 @@ public class SelectedRoute extends AppCompatActivity {
             routePlaceholder = extras.getString("routeName"); //get the value we need by sending corresponding key
         }
         routeName.setText(routePlaceholder);  //setText for the view of the SelectedRoute (activity_selected_route)
+        String finalRouteName = routePlaceholder;
+
+
+        //Deal with saved route in preferences or not here
+
+        ArrayList<FavouriteRoute> favouriteRoutesList = new ArrayList<>();
+
+        userPreferences = new UserPreferences();
+        userPreferences.loadData(favouriteRoutesList, mcontext);
+
+        addBtn = findViewById(R.id.idBtnAdd);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // below line is use to add data to array list.
+                favouriteRoutesList.add(new FavouriteRoute(finalRouteName));
+            }
+        });
+
+        saveBtn = findViewById(R.id.idBtnSave);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userPreferences.saveData(favouriteRoutesList, mcontext);
+            }
+        });
+
+
+        //Deal with saved route in preferences or not here
+
 
         DatabaseReference transportsReference = FirebaseManager.getTransportsReference();   //connect to database and get the times for this specific transport (given its name)
-        String finalRouteName = routePlaceholder;
+
         transportsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -194,6 +231,7 @@ public class SelectedRoute extends AppCompatActivity {
             mStationsAndSectionList.add(station);
         }
     }
+
 
 
 }

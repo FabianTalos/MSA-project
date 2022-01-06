@@ -14,6 +14,23 @@
         android:orientation="horizontal"
         android:visibility="invisible"
         tools:ignore="MissingConstraints" />
+    <Button
+        android:id="@+id/idBtnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/routeName"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:text="Add " />
+    <Button
+        android:id="@+id/idBtnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:text="Save " />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSelectedRoute"
