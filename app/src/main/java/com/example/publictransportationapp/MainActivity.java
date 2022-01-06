@@ -32,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("MainTag", "Main activity, on create");
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        reference = database.getReference().child("transports");
 
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -51,36 +48,21 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.nav_home:
                     selectedFragment = new HomeFragment();
-
-                    Log.d(TAG, "1!");
-
                     break;
                 case R.id.nav_search:
                     selectedFragment = new SearchFragment();
-
-                    Log.d(TAG, "2!");
-
                     break;
                 case R.id.nav_vehicles:
                     selectedFragment = new VehiclesFragment();
 
                     Intent intent = new Intent(MainActivity.this, ShowTransports.class);
                     startActivity(intent);
-
-                    Log.d(TAG, "3!");
-
                     break;
                 case R.id.nav_favorites:
                     selectedFragment = new FavoritesFragment();
-
-                    Log.d(TAG, "4!");
-
                     break;
                 case R.id.nav_info:
                     selectedFragment = new InfoFragment();
-
-                    Log.d(TAG, "5!");
-
                     break;
             }
 
