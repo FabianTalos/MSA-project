@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">stpt.ro</domain>
+        <domain includeSubdomains="true">86.125.113.218</domain> <!--Both are domains for parsing the STPT site -->
+    </domain-config>
+</network-security-config>
