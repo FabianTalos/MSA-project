@@ -3,18 +3,30 @@ package com.example.publictransportationapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.publictransportationapp.activity.ShowTransports;
+import com.example.publictransportationapp.fragments.VehiclesFragment;
+import com.example.publictransportationapp.fragments.HomeFragment;
+import com.example.publictransportationapp.fragments.SearchFragment;
+import com.example.publictransportationapp.fragments.FavoritesFragment;
+import com.example.publictransportationapp.fragments.InfoFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 //TO DO: GridLayoutManager for transports
 public class MainActivity extends AppCompatActivity {
     DatabaseReference reference;
+
+    BottomNavigationView bottomNav;
+    private final static String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,24 +36,58 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         reference = database.getReference().child("transports");
 
+        bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        bottomNav.setSelectedItemId(R.id.nav_vehicles);
+    }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment selectedFragment = null;
 
-        Button openTransportListButton = (Button) findViewById(R.id.openTransportListButton);
-        openTransportListButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                openTransportList();
+            switch (item.getItemId()) {
+                case R.id.nav_home:
+                    selectedFragment = new HomeFragment();
+
+                    Log.d(TAG, "1!");
+
+                    break;
+                case R.id.nav_search:
+                    selectedFragment = new SearchFragment();
+
+                    Log.d(TAG, "2!");
+
+                    break;
+                case R.id.nav_vehicles:
+                    selectedFragment = new VehiclesFragment();
+
+                    Intent intent = new Intent(MainActivity.this, ShowTransports.class);
+                    startActivity(intent);
+
+                    Log.d(TAG, "3!");
+
+                    break;
+                case R.id.nav_favorites:
+                    selectedFragment = new FavoritesFragment();
+
+                    Log.d(TAG, "4!");
+
+                    break;
+                case R.id.nav_info:
+                    selectedFragment = new InfoFragment();
+
+                    Log.d(TAG, "5!");
+
+                    break;
             }
-        });
 
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
 
-    }
-
-    public void openTransportList()
-    {
-        Intent intent = new Intent(this, ShowTransports.class);
-        startActivity(intent);
-    }
+            return true;
+        }
+    };
 
 }
