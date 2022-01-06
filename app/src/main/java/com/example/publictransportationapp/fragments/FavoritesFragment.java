@@ -15,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.publictransportationapp.R;
 import com.example.publictransportationapp.adapter.FavouriteAdapter;
 import com.example.publictransportationapp.model.FavouriteRoute;
-import com.example.publictransportationapp.model.GroupDirectionModel;
 import com.example.publictransportationapp.model.GroupFavouriteRouteModel;
 import com.example.publictransportationapp.model.ItemInterface;
-import com.example.publictransportationapp.model.Station;
 
 import java.util.ArrayList;
 

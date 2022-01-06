@@ -1,7 +1,6 @@
 package com.example.publictransportationapp.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.publictransportationapp.R;
 import com.example.publictransportationapp.model.FavouriteRoute;
-import com.example.publictransportationapp.model.GroupDirectionModel;
 import com.example.publictransportationapp.model.GroupFavouriteRouteModel;
 import com.example.publictransportationapp.model.ItemInterface;
-import com.example.publictransportationapp.model.Station;
 
 import java.util.ArrayList;
 
@@ -35,7 +32,6 @@ public class FavouriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //row_favourite_route
         View view;
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         if (viewType == SECTION_VIEW)   //if the next view is of type section, inflate the layout with the transport image
