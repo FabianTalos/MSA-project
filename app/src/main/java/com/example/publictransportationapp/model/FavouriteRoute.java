@@ -9,6 +9,15 @@ public class FavouriteRoute implements ItemInterface{
         this.favouriteRouteName = favouriteRouteName;
     }
 
+    public FavouriteRoute(String favouriteRouteName, String favouriteRouteType)
+    {
+        this.favouriteRouteName = favouriteRouteName;
+        this.favouriteRouteType = favouriteRouteType;
+    }
+    public FavouriteRoute() {
+
+    }
+
     public String getFavouriteRouteName()
     {
         return favouriteRouteName;
@@ -29,6 +38,10 @@ public class FavouriteRoute implements ItemInterface{
 
     @Override
     public String toString() {
-        return favouriteRouteName;
+        return favouriteRouteName + " - " + favouriteRouteType;
+    }
+
+    public void setFavouriteRouteName(String routeName) {
+        this.favouriteRouteName = routeName;
     }
 }

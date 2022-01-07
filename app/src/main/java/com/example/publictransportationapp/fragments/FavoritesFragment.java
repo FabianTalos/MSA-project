@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.publictransportationapp.R;
+import com.example.publictransportationapp.Tools.UserPreferences;
 import com.example.publictransportationapp.adapter.FavouriteAdapter;
 import com.example.publictransportationapp.model.FavouriteRoute;
 import com.example.publictransportationapp.model.GroupFavouriteRouteModel;
@@ -28,20 +29,7 @@ public class FavoritesFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_favorites, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewFavourites);
 
-        ArrayList<FavouriteRoute> favouriteRoutes = new ArrayList<>();
-        FavouriteRoute fav1 = new FavouriteRoute("Fav 1");
-        fav1.setFavouriteRouteType("bus");
-        FavouriteRoute fav2 = new FavouriteRoute("Fav 2");
-        fav2.setFavouriteRouteType("bus");
-        FavouriteRoute fav3 = new FavouriteRoute("Fav 3");
-        fav3.setFavouriteRouteType("tram");
-        FavouriteRoute fav4 = new FavouriteRoute("Fav 4");
-        fav4.setFavouriteRouteType("trolley");
-        favouriteRoutes.add(fav1);
-        favouriteRoutes.add(fav2);
-        favouriteRoutes.add(fav3);
-        favouriteRoutes.add(fav4);
-
+        ArrayList<FavouriteRoute> favouriteRoutes = UserPreferences.getInstance().getListOfFavouriteRoutes(getContext());
 
         ArrayList<ItemInterface> mFavouriteRoutesAndSectionList = new ArrayList<>();
         ArrayList<String> transportTypes = new ArrayList<>();

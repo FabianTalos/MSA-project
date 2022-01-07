@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -55,38 +55,40 @@ public class SelectedRoute extends AppCompatActivity {
         routeName.setText(routePlaceholder);  //setText for the view of the SelectedRoute (activity_selected_route)
         String finalRouteName = routePlaceholder;
 
+        TextView selectedRouteMessage = findViewById(R.id.selectedRouteMessage); //Showing direction for route ...
+        String text = getString(R.string.selectedRoute) + finalRouteName.toUpperCase();
+        selectedRouteMessage.setText(text);
 
         //Deal with saved route in preferences or not here
-
         userPreferences = UserPreferences.getInstance();
-        //userPreferences.loadData(favouriteRoutesList, mcontext);
 
-        Button addBtn = findViewById(R.id.idBtnAdd);
-        addBtn.setOnClickListener(new View.OnClickListener() {  //this will listen for the user if it clicked "save" or not and add the route to favourites
-            @Override
-            public void onClick(View v) {
-                userPreferences.addRouteToFavourites(new FavouriteRoute(finalRouteName), mcontext);
+        ImageButton heartBtn = findViewById(R.id.idBtnHeart);
+        if(userPreferences.isRouteInFavourites(finalRouteName, mcontext)) //if the route is already in the favorites list
+        {
+            heartBtn.setImageResource(R.drawable.ic_baseline_favorite_marked);
+        }
+        else //the route was not yet "hearted", load the "unmarked" resource
+        {
+            heartBtn.setImageResource(R.drawable.ic_baseline_favorite_unmarked);
+        }
 
-                ArrayList<String> favouriteRoutesList = userPreferences.getListOfFavouriteRoutesNames(mcontext);
-                Log.e("MainTag", "List after add");
-                for(String routeName : favouriteRoutesList){
-                    Log.e("MainTag", routeName);
-                }
-            }
-        });
-        Button removeBtn = findViewById(R.id.idBtnRemove);
-        removeBtn.setOnClickListener(new View.OnClickListener() {
+        heartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userPreferences.removeRouteFromFavourites(new FavouriteRoute(finalRouteName), mcontext);
-                ArrayList<String> favouriteRoutesList = userPreferences.getListOfFavouriteRoutesNames(mcontext);
-                Log.e("MainTag", "List after delete");
-                for(String routeName : favouriteRoutesList){
-                    Log.e("MainTag", routeName);
+                if(userPreferences.isRouteInFavourites(finalRouteName, mcontext)) //the route is already in the favorites list
+                {
+                    //clicking this button should "unheart" the route -> remove it from favourites
+                    userPreferences.removeRouteFromFavourites(new FavouriteRoute(finalRouteName), mcontext);
+                    heartBtn.setImageResource(R.drawable.ic_baseline_favorite_unmarked);
+                }
+                else //the route was not yet "hearted"
+                {
+                    userPreferences.addRouteToFavourites(new FavouriteRoute(finalRouteName), mcontext);
+                    heartBtn.setImageResource(R.drawable.ic_baseline_favorite_marked);
                 }
             }
         });
-        //Deal with saved route in preferences or not here
+        //Deal with saved route in preferences
 
 
         DatabaseReference transportsReference = FirebaseManager.getTransportsReference();   //connect to database and get the times for this specific transport (given its name)

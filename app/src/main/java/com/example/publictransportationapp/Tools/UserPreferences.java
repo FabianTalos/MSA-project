@@ -4,19 +4,17 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.publictransportationapp.model.FavouriteRoute;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Map;
 
 public class UserPreferences { //thank you https://www.geeksforgeeks.org/how-to-save-arraylist-to-sharedpreferences-in-android/
     private static UserPreferences instance;
+    public final String FAVORITE_ROUTES_PREF = "favouriteRoutes";
 
     public static UserPreferences getInstance() //this is a singleton class
     {
@@ -40,42 +38,45 @@ public class UserPreferences { //thank you https://www.geeksforgeeks.org/how-to-
         Toast.makeText(context, "Saved Array List to Shared preferences. ", Toast.LENGTH_SHORT).show();
     }
 
-    public ArrayList<String> getListOfFavouriteRoutesNames(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("shared preferences", MODE_PRIVATE);
+    public ArrayList<FavouriteRoute> getListOfFavouriteRoutes(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FAVORITE_ROUTES_PREF, MODE_PRIVATE);
+        ArrayList<FavouriteRoute> favouriteRoutesList = new ArrayList<>(); // deserialize the JSON stored data into data compatible with ArrayList<FavouriteRoute>
 
-        ArrayList<String> favouriteRoutesList = new ArrayList<>(); // deserialize the JSON stored data into data compatible with ArrayList<FavouriteRoute>
-        favouriteRoutesList.addAll(sharedPreferences.getAll().keySet());
+        for(Map.Entry<String, ?> value : sharedPreferences.getAll().entrySet())
+        {
+            FavouriteRoute tempRoute = new FavouriteRoute(value.getKey(), (String) value.getValue());
+            favouriteRoutesList.add(tempRoute);
+        }
         return favouriteRoutesList;
     }
 
     public void addRouteToFavourites(FavouriteRoute favouriteRoute, Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("favouriteRoutes", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FAVORITE_ROUTES_PREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if(!sharedPreferences.contains(favouriteRoute.getFavouriteRouteName())) {
-            editor.putString(favouriteRoute.getFavouriteRouteName(), favouriteRoute.getFavouriteRouteName()); //save favourites
-            editor.apply(); //apply the changes, asynchronously
-        /*
-        Log.e("MainTag", "favouriteRoutes (after add): " + sharedPreferences);
-        for(Map.Entry<String, ?> item : sharedPreferences.getAll().entrySet())
-        {
-            Log.e("MainTag", "Item key: " + item.getKey());
-        }
-        */
-            Toast.makeText(context, "Saved " + favouriteRoute.getFavouriteRouteName() + " to favourites.", Toast.LENGTH_SHORT).show();
+            FirebaseManager.getTransportTypeForRouteName(favouriteRoute.getFavouriteRouteName(), new CustomCallback() {
+                @Override
+                public void onCallback(String value) {
+                    editor.putString(favouriteRoute.getFavouriteRouteName(), value); //save favourites
+                    editor.apply(); //apply the changes, asynchronously
+                }
+            });
         }
     }
 
     public void removeRouteFromFavourites(FavouriteRoute favouriteRoute, Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("favouriteRoutes", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FAVORITE_ROUTES_PREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if(sharedPreferences.contains(favouriteRoute.getFavouriteRouteName())) {
             editor.remove(favouriteRoute.getFavouriteRouteName());
             editor.apply();
-            Log.e("MainTag", "favouriteRoutes (after delete): " + sharedPreferences);
-            for (Map.Entry<String, ?> item : sharedPreferences.getAll().entrySet()) {
-                Log.e("MainTag", "Item key: " + item.getKey());
-            }
-            Toast.makeText(context, "Removed " + favouriteRoute.getFavouriteRouteName() + " from favourites. (theoretically)", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public boolean isRouteInFavourites(String routeName, Context context)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FAVORITE_ROUTES_PREF, MODE_PRIVATE);
+
+        return sharedPreferences.contains(routeName.toLowerCase());
     }
 }
