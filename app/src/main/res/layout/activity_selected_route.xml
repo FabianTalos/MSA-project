@@ -24,13 +24,13 @@
         android:layout_margin="10dp"
         android:text="Add " />
     <Button
-        android:id="@+id/idBtnSave"
+        android:id="@+id/idBtnRemove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
-        android:text="Save " />
+        android:text="Remove " />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSelectedRoute"

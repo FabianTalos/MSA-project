@@ -26,4 +26,9 @@ public class FavouriteRoute implements ItemInterface{
     public boolean isSection() {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return favouriteRouteName;
+    }
 }

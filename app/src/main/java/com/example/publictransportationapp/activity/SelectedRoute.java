@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SelectedRoute extends AppCompatActivity {
-    private Button saveBtn, addBtn;
+
     private UserPreferences userPreferences;
 
     Context mcontext;
@@ -58,34 +58,38 @@ public class SelectedRoute extends AppCompatActivity {
 
         //Deal with saved route in preferences or not here
 
-        ArrayList<FavouriteRoute> favouriteRoutesList = new ArrayList<>();
+        userPreferences = UserPreferences.getInstance();
+        //userPreferences.loadData(favouriteRoutesList, mcontext);
 
-        userPreferences = new UserPreferences();
-        userPreferences.loadData(favouriteRoutesList, mcontext);
-
-        addBtn = findViewById(R.id.idBtnAdd);
-        addBtn.setOnClickListener(new View.OnClickListener() {
+        Button addBtn = findViewById(R.id.idBtnAdd);
+        addBtn.setOnClickListener(new View.OnClickListener() {  //this will listen for the user if it clicked "save" or not and add the route to favourites
             @Override
             public void onClick(View v) {
-                // below line is use to add data to array list.
-                favouriteRoutesList.add(new FavouriteRoute(finalRouteName));
+                userPreferences.addRouteToFavourites(new FavouriteRoute(finalRouteName), mcontext);
+
+                ArrayList<String> favouriteRoutesList = userPreferences.getListOfFavouriteRoutesNames(mcontext);
+                Log.e("MainTag", "List after add");
+                for(String routeName : favouriteRoutesList){
+                    Log.e("MainTag", routeName);
+                }
             }
         });
-
-        saveBtn = findViewById(R.id.idBtnSave);
-        saveBtn.setOnClickListener(new View.OnClickListener() {
+        Button removeBtn = findViewById(R.id.idBtnRemove);
+        removeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                userPreferences.saveData(favouriteRoutesList, mcontext);
+            public void onClick(View view) {
+                userPreferences.removeRouteFromFavourites(new FavouriteRoute(finalRouteName), mcontext);
+                ArrayList<String> favouriteRoutesList = userPreferences.getListOfFavouriteRoutesNames(mcontext);
+                Log.e("MainTag", "List after delete");
+                for(String routeName : favouriteRoutesList){
+                    Log.e("MainTag", routeName);
+                }
             }
         });
-
-
         //Deal with saved route in preferences or not here
 
 
         DatabaseReference transportsReference = FirebaseManager.getTransportsReference();   //connect to database and get the times for this specific transport (given its name)
-
         transportsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

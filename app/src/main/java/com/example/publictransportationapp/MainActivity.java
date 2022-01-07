@@ -1,13 +1,16 @@
 package com.example.publictransportationapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.publictransportationapp.Tools.UserPreferences;
 import com.example.publictransportationapp.activity.ShowTransports;
 import com.example.publictransportationapp.fragments.FavoritesFragment;
 import com.example.publictransportationapp.fragments.HomeFragment;
@@ -16,6 +19,9 @@ import com.example.publictransportationapp.fragments.SearchFragment;
 import com.example.publictransportationapp.fragments.VehiclesFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +37,17 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
         bottomNav.setSelectedItemId(R.id.nav_vehicles);
+        //UserPreferences.getInstance();
+        //UserPreferences.getInstance().loadData(new ArrayList<>(), this);
+        //SharedPreferences sharedPreferences = this.getSharedPreferences("favouriteRoutes", MODE_PRIVATE); //get an instance of the shared preferences
+        // from this instance, grab the favourite routes
+        //String json = sharedPreferences.getString("favouriteRoutes", null); //get the saved routes (null if value is empty)
+//        Log.e("MainTag", "favouriteRoutes: " + sharedPreferences);
+//        for(Map.Entry<String, ?> item : sharedPreferences.getAll().entrySet())
+//        {
+//            Log.e("MainTag", "Item key: " + item.getKey());
+//            Log.e("MainTag", "Item value: " + item.getValue());
+//        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
