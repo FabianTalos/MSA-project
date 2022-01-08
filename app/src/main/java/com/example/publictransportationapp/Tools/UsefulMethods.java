@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UsefulMethods {
-
+    public static final String tag = "MainTag";
     public static ArrayList<String> fetchKeys(Iterable<DataSnapshot> values) {
         ArrayList<String> keys = new ArrayList<>();
         for(DataSnapshot value : values)
