@@ -6,15 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".activity.SelectedRoute"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/routeName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="invisible"
-        tools:ignore="MissingConstraints" />
+        android:gravity="center">
+        <TextView
+            android:id="@+id/routeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"/>
 
+        <TextView
+            android:id="@+id/selectedRouteMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:text="@string/selectedRoute"
+            android:textSize="15sp"
+            android:layout_margin="10dp"
+            tools:ignore="MissingConstraints" />
+
+        <ImageButton
+            android:id="@+id/idBtnHeart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_margin="7dp"
+            android:src="@drawable/ic_baseline_favorite_unmarked"
+            />
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSelectedRoute"
         android:layout_width="match_parent"
