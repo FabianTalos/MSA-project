@@ -55,7 +55,7 @@ public class SearchFragment extends Fragment {
                 List<Address> addressList = null;
 
                 if ((location != null) || (!location.equals(""))) {
-                    Geocoder geocoder = new Geocoder(view.getContext());
+                    Geocoder geocoder = new Geocoder(getContext());
                     try {
                         addressList = geocoder.getFromLocationName(location, 1);
                     } catch (IOException e) {
