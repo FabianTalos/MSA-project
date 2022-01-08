@@ -2,12 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/google_map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+    <!-- fragment -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/google_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            />
+        <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
 
     <SearchView
         android:layout_width="match_parent"
@@ -18,5 +20,28 @@
         android:layout_margin="10dp"
         android:elevation="5dp"
         android:background="@drawable/bg_round"/>
-    
+
+    <Button
+        android:id="@+id/idBtnFindCurrentLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find stations near current location"
+        android:layout_below="@+id/sv_location"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:id="@+id/currentLocationLatLong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You could see you current location if you want"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        />
+
+
 </RelativeLayout>
