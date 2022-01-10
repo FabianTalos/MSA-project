@@ -28,8 +28,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 //import com.example.publictransportationapp.Manifest;
 import com.example.publictransportationapp.R;
+import com.example.publictransportationapp.Tools.FirebaseManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
@@ -71,13 +74,17 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_search, container, false);
         if (view != null) {
             ViewGroup parent = (ViewGroup) view.getParent();
             if (parent != null)
                 parent.removeView(view);
         }
-        view = inflater.inflate(R.layout.fragment_search, container, false);
+
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
+
+        searchView = view.findViewById(R.id.sv_location);
 
         //Get current location here
         requestMultiplePermissionsContract = new ActivityResultContracts.RequestMultiplePermissions();
@@ -89,11 +96,15 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        //start this in the background and let it fetch the stations from the database
+        new Thread( new Runnable() { @Override public void run() {
+            FirebaseManager.getAllStationCoordinatesFromFirebase();
+        } } ).start();
+
         getCurrentUserLocation();
 
         //Search and map function below
-        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
-        searchView = view.findViewById(R.id.sv_location);
+
 
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -250,5 +261,14 @@ public class SearchFragment extends Fragment {
             return true;
         }
         return false;
+    }
+
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.google_map);
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.remove(fragment);
+        ft.commit();
     }
 }
