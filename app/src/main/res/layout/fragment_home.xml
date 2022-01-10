@@ -24,6 +24,6 @@
         android:background="@color/appgreen"
         android:text="Buy ticket"
         android:textAllCaps="true"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"/>
 
 </LinearLayout>

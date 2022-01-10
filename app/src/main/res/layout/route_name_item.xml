@@ -28,12 +28,14 @@
 
                 <TextView
                     android:id="@+id/transportType"
-                    android:layout_width="match_parent"
+                    android:layout_width="284dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
+                    android:textAllCaps="true"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="invisible" />
                 <!--android:layout_toLeftOf="@+id/textView_total"-->
 
             </RelativeLayout>
@@ -52,9 +54,15 @@
                     android:layout_height="25dp"
                     android:layout_alignParentEnd="false"
                     android:layout_alignParentRight="false"
-                    android:background="@drawable/ic_arrow_drop_down_black_24dp" />
+                    android:background="@drawable/ic_arrow_drop_down_black" />
 
             </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/routeTypeImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
         </RelativeLayout>
         <!--below is the expandableLayout -->
         <LinearLayout
@@ -68,12 +76,13 @@
                 android:id="@+id/llContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:padding="25dp"
                 android:useDefaultMargins="true"
-                android:columnCount="2"
-
-                >
-
-
+                android:columnCount="4"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_round">
             </GridLayout>
 
         </LinearLayout>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,6 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.publictransportationapp.R;
+import com.example.publictransportationapp.fragments.FavoritesFragment;
+import com.example.publictransportationapp.fragments.HomeFragment;
+import com.example.publictransportationapp.fragments.SearchFragment;
+import com.example.publictransportationapp.fragments.SettingsFragment;
+import com.example.publictransportationapp.fragments.VehiclesFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +67,22 @@ public class TransportsAdapter extends RecyclerView.Adapter<TransportsAdapter.Tr
             TextView tv_transportType = view.findViewById(R.id.tv_transportType);
             tv_routeName.setText(routesList.get(i));
             tv_transportType.setText(transportTypeString);
-
+            int imageID;
+            switch (transportTypeString)
+            {
+                case "bus":
+                    imageID = R.drawable.ic_baseline_bus;
+                    break;
+                case "tram":
+                    imageID = R.drawable.ic_baseline_tram_24;
+                    break;
+                case "trolley":
+                    imageID = R.drawable.ic_trolley_transport_svgrepo_com_resized;
+                    break;
+                default:
+                    imageID = R.drawable.ic_baseline_bus;
+            }
+            holder.routeTypeImage.setImageResource(imageID);
             holder.llContainer.addView(view);
         }
 
@@ -83,6 +104,7 @@ public class TransportsAdapter extends RecyclerView.Adapter<TransportsAdapter.Tr
         LinearLayout expandableLayout;
         RelativeLayout buttonLayout;
         GridLayout llContainer;
+        ImageView routeTypeImage;
 
         public TransportsHolder(@NonNull View view) {
             super(view);
@@ -90,9 +112,8 @@ public class TransportsAdapter extends RecyclerView.Adapter<TransportsAdapter.Tr
             expandableLayout = view.findViewById(R.id.expandableLayout);
             buttonLayout = view.findViewById(R.id.button);
             llContainer = view.findViewById(R.id.llContainer);
-
+            routeTypeImage = view.findViewById(R.id.routeTypeImage);
         }
-
     }
 
     private static String getHashMapKeyFromIndex(HashMap hashMap, int index) {

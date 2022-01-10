@@ -2,7 +2,6 @@ package com.example.publictransportationapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,7 @@ import com.example.publictransportationapp.fragments.VehiclesFragment;
 import com.example.publictransportationapp.fragments.HomeFragment;
 import com.example.publictransportationapp.fragments.SearchFragment;
 import com.example.publictransportationapp.fragments.FavoritesFragment;
-import com.example.publictransportationapp.fragments.InfoFragment;
+import com.example.publictransportationapp.fragments.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,14 +46,12 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_vehicles:
                     selectedFragment = new VehiclesFragment();
-                    Intent intent = new Intent(MainActivity.this, ShowTransports.class);
-                    startActivity(intent);
                     break;
                 case R.id.nav_favorites:
                     selectedFragment = new FavoritesFragment();
                     break;
-                case R.id.nav_info:
-                    selectedFragment = new InfoFragment();
+                case R.id.nav_settings:
+                    selectedFragment = new SettingsFragment();
                     break;
             }
 

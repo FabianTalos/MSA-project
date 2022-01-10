@@ -5,8 +5,12 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,17 +20,25 @@ import androidx.core.content.ContextCompat;
 
 import com.example.publictransportationapp.R;
 
-public class TicketActivity extends AppCompatActivity {
-    EditText etPhone, etMessage;
+public class TicketActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+    String etPhone, item;
     Button btSend;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
 
-        etPhone = findViewById(R.id.et_phone);
-        etMessage = findViewById(R.id.et_message);
+        etPhone = "7442";
         btSend = findViewById(R.id.btn_send);
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.transport_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(this);
+
 
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,21 +66,67 @@ public class TicketActivity extends AppCompatActivity {
     }
 
     private void sendMessage() {
-        //Get values from edit text
-        String sPhone = etPhone.getText().toString().trim();
-        String sMessage = etMessage.getText().toString().trim();
+        //Get value from edit text
+        String sMessage = "B" + item;
         //check condition
-        if(!sPhone.equals("") && !sMessage.equals(""))
+        if(!sMessage.equals(""))
         {
-            //when textboxes contain a value
+            //when textbox contains a value
             SmsManager smsManager = SmsManager.getDefault();
             //send the message
-            smsManager.sendTextMessage(sPhone, null, sMessage, null, null);
+            smsManager.sendTextMessage(etPhone, null, sMessage, null, null);
             Toast.makeText(getApplicationContext(), "Message sent successfully. Enjoy your ride!", Toast.LENGTH_SHORT).show();
         } else {
             //when no text value
             Toast.makeText(getApplicationContext(), "Enter value first", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        item = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), "Selected:" + item, Toast.LENGTH_SHORT).show();
+
+        if(parent.getItemAtPosition(position).equals("Bus"))
+        {
+            Spinner bus_spinner = (Spinner) findViewById(R.id.transport_spinner);
+
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.bus_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            bus_spinner.setAdapter(adapter);
+
+            bus_spinner.setOnItemSelectedListener(this);
+        }
+
+        if(parent.getItemAtPosition(position).equals("Tramway"))
+        {
+            Spinner tram_spinner = (Spinner) findViewById(R.id.transport_spinner);
+
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.tram_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            tram_spinner.setAdapter(adapter);
+
+            tram_spinner.setOnItemSelectedListener(this);
+        }
+
+        if(parent.getItemAtPosition(position).equals("Trolley"))
+        {
+            Spinner trolley_spinner = (Spinner) findViewById(R.id.transport_spinner);
+
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.trolley_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            trolley_spinner.setAdapter(adapter);
+
+            trolley_spinner.setOnItemSelectedListener(this);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
 

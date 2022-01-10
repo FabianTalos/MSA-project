@@ -72,9 +72,6 @@ public class ShowTransports extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     private HashMap<String, ArrayList<String>> getAllRoutes(ArrayList<String> transportTypeKeys, DataSnapshot snapshot) {

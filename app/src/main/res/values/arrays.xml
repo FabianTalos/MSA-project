@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="transport_array">
+        <item>Bus</item>
+        <item>Tramway</item>
+        <item>Trolley</item>
+    </string-array>
+
+    <string-array name="bus_array">
+        <item>3</item>
+        <item>5</item>
+        <item>21</item>
+        <item>28</item>
+        <item>32</item>
+        <item>33</item>
+        <item>40</item>
+        <item>46</item>
+        <item>33B</item>
+        <item>4B</item>
+        <item>E1</item>
+        <item>E2</item>
+        <item>E3</item>
+        <item>E4</item>
+        <item>E4B</item>
+        <item>E6</item>
+        <item>E7</item>
+        <item>E8</item>
+        <item>M22</item>
+        <item>M27</item>
+        <item>M29</item>
+        <item>M30</item>
+        <item>M35</item>
+        <item>M36</item>
+        <item>M37</item>
+        <item>M41</item>
+        <item>M42</item>
+        <item>M43</item>
+    </string-array>
+
+    <string-array name="tram_array">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>8</item>
+        <item>9</item>
+        <item>6A</item>
+        <item>6B</item>
+        <item>7A</item>
+        <item>7B</item>
+    </string-array>
+
+    <string-array name="trolley_array">
+        <item>11</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>M11</item>
+        <item>M14</item>
+    </string-array>
+</resources>
