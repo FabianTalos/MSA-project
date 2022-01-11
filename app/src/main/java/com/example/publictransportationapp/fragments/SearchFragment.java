@@ -72,6 +72,7 @@ public class SearchFragment extends Fragment {
     SearchView searchView;
     private View view;
     boolean firstChange = true;
+
     Button idBtnFindCurrentLocation; //get current location
     TextView currentLocationLatLong;
     Context mcontext;
