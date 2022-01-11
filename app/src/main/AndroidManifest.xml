@@ -8,6 +8,7 @@
 
     <uses-permission android:name="com.example.publictransportationapp.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -26,12 +27,18 @@
         <activity
             android:name=".activity.ShowTransports"
             android:exported="false" />
+        <activity
+            android:name=".activity.TicketActivity"
+            android:exported="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".MainActivity"
-            android:exported="true">
+        <activity android:name=".MainActivity">
+        </activity>
+
+        <activity android:name=".activity.SplashScreen"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
