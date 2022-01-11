@@ -1,7 +1,6 @@
 package com.example.publictransportationapp.fragments;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.publictransportationapp.R;
 import com.example.publictransportationapp.activity.ShowTransports;
-import com.example.publictransportationapp.activity.TicketActivity;
 
 public class VehiclesFragment extends Fragment {
     Button btnTransport;

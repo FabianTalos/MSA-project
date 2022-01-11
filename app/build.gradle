@@ -50,4 +50,6 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.4.0")
 
     implementation 'com.appolica:interactive-info-window-android:1.1.0'
+
+    implementation 'com.takisoft.fix:preference-v7:25.3.0.0'
 }

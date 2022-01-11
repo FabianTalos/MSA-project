@@ -15,11 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.publictransportationapp.R;
-import com.example.publictransportationapp.fragments.FavoritesFragment;
-import com.example.publictransportationapp.fragments.HomeFragment;
-import com.example.publictransportationapp.fragments.SearchFragment;
-import com.example.publictransportationapp.fragments.SettingsFragment;
-import com.example.publictransportationapp.fragments.VehiclesFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;

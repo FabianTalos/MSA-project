@@ -1,10 +1,8 @@
 package com.example.publictransportationapp.activity;
 
 import static com.example.publictransportationapp.Tools.UsefulMethods.fetchKeys;
-import static com.example.publictransportationapp.Tools.UsefulMethods.tag;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -51,19 +49,14 @@ public class SelectedRoute extends AppCompatActivity {
         String routePlaceholder = "Route not set";
         Bundle extras = getIntent().getExtras(); //get the info passed to the intent from inside ShowTransports -> onClickOpenSelectedRoute
         routePlaceholder ="33b";
-        boolean receivedMultiple = false;
         if(extras != null)
         {
             if(getIntent().getStringArrayListExtra("names") != null)
             {
-                Log.e(tag, "Received list of routes");
-                Log.e(tag, "Routes: " + getIntent().getStringArrayListExtra("names"));
                 routePlaceholder ="33b";
-                receivedMultiple = true;
             }
             else{
                 routePlaceholder = extras.getString("routeName"); //get the value we need by sending corresponding key
-                Log.e(tag, "Clicked a route normally");
             }
         }
         routeName.setText(routePlaceholder);  //setText for the view of the SelectedRoute (activity_selected_route)
@@ -182,7 +175,6 @@ public class SelectedRoute extends AppCompatActivity {
         }
         if(found == 0) //some kind of problem occurred while parsing the database, safe to quit
         {
-            Log.e("MainTag", "Problem fetching transport type for given transport name");
             return null;
         }
         transport.setTransportType(routeType);  //set type of transport
@@ -205,7 +197,6 @@ public class SelectedRoute extends AppCompatActivity {
         DataSnapshot dataSnapshot = snapshot.child(routeType).child("route").child(routeName).child("data");
         for(DataSnapshot child : dataSnapshot.getChildren()) //for this route, we will get to following directions
         {
-            //Log.e("MainTag", "Child: " + child.getKey());
             directions.add(child.getKey());
         }
         return directions;

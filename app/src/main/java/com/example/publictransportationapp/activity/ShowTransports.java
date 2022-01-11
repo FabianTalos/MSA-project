@@ -1,7 +1,6 @@
 package com.example.publictransportationapp.activity;
 
 import static com.example.publictransportationapp.Tools.UsefulMethods.fetchKeys;
-import static com.example.publictransportationapp.Tools.UsefulMethods.tag;
 
 import android.content.Context;
 import android.content.Intent;
@@ -42,8 +41,6 @@ public class ShowTransports extends AppCompatActivity {
         boolean receivedMultiple = false;
         if(getIntent().getStringArrayListExtra("names") != null)
         {
-            Log.e(tag, "Received list of routes");
-            Log.e(tag, "Routes: " + getIntent().getStringArrayListExtra("names"));
             receivedMultiple = true;
         }
 
@@ -83,7 +80,6 @@ public class ShowTransports extends AppCompatActivity {
         else
         {
             //show only the transports that were passed inside the intent
-            Log.e(tag, "Trying to display routes passed through activity");
             ArrayList<String> routeNames = getIntent().getStringArrayListExtra("names");
             ArrayList<String> lowerCaseNames = new ArrayList<>();
             for(String s : routeNames)
@@ -128,7 +124,6 @@ public class ShowTransports extends AppCompatActivity {
     public void onClickOpenSelectedRoute(View view)
     {
         TextView routeName = view.findViewById(R.id.tv_routeName);
-        //Log.e("MainTag", "Clicked " + routeName.getText());
         Intent intent = new Intent(getApplicationContext(), SelectedRoute.class);
         intent.putExtra("routeName", routeName.getText());
 

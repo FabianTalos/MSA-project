@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -90,7 +89,6 @@ public class FavouriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         contentHolder.routeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Clicked route: " + contentHolder.routeName.getText(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context, SelectedRoute.class);
                 intent.putExtra("routeName", contentHolder.routeName.getText());
 

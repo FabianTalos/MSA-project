@@ -1,46 +1,89 @@
 package com.example.publictransportationapp.fragments;
 
+import static com.example.publictransportationapp.Tools.UsefulMethods.tag;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.publictransportationapp.MainActivity;
 import com.example.publictransportationapp.R;
+import com.example.publictransportationapp.activity.TicketActivity;
 
 public class SettingsFragment extends Fragment {
-    SwitchCompat switchCompat;
+
+    Button btn_changeTheme;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        btn_changeTheme = (Button) view.findViewById(R.id.btn_changeTheme);
+        Log.e(tag, "Ajuns in settings fragment");
+        Log.e(tag, "Btn null ? " + (btn_changeTheme == null));
 
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            //setTheme(R.style.DarkTheme);
-        }else{
-            //setTheme(R.style.AppTheme);
+        SharedPreferences appSettingsPref = container.getContext().getSharedPreferences("AppSettingsPref", 0);
+        SharedPreferences.Editor appSettingsEdit = appSettingsPref.edit();
+        boolean isNightModeOn = appSettingsPref.getBoolean("NightMode", false);
+        Log.e(tag, "is nightmode on ? " + isNightModeOn);
+
+        if(isNightModeOn)
+        {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            btn_changeTheme.setText("Disable dark mode");
+        }
+        else
+        {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            btn_changeTheme.setText("Enable dark mode");
         }
 
-        switchCompat = view.findViewById(R.id.bt_switch);
 
-        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        btn_changeTheme.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //check condition
-                if(isChecked){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }else{
+            public void onClick(View view) {
+                if(isNightModeOn)
+                {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    appSettingsEdit.putBoolean("NightMode", false);
+                    appSettingsEdit.apply();
+
+                    btn_changeTheme.setText("Enable dark mode");
+
                 }
+                else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    appSettingsEdit.putBoolean("NightMode", true);
+                    appSettingsEdit.apply();
+
+                    btn_changeTheme.setText("Disable dark mode");
+                }
+
             }
         });
 
         return view;
     }
+
+    public void onDestroy() {
+
+        super.onDestroy();
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+    }
+
 }

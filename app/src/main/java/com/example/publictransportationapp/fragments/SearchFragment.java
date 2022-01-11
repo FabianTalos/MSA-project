@@ -2,9 +2,9 @@ package com.example.publictransportationapp.fragments;
 
 import static com.example.publictransportationapp.Tools.UsefulMethods.tag;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.ContextParams;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -15,11 +15,9 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,35 +25,27 @@ import android.widget.GridLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.MotionEventCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-//import com.example.publictransportationapp.Manifest;
+
 import com.example.publictransportationapp.R;
 import com.example.publictransportationapp.Tools.DistanceComputer;
 import com.example.publictransportationapp.Tools.FirebaseManager;
-import com.example.publictransportationapp.activity.SelectedRoute;
 import com.example.publictransportationapp.activity.ShowTransports;
-import com.example.publictransportationapp.model.FirebaseRoute;
 import com.example.publictransportationapp.model.FirebaseStation;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -64,15 +54,11 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.Manifest;
-
 public class SearchFragment extends Fragment {
     GoogleMap map;
     SupportMapFragment supportMapFragment;
     SearchView searchView;
     private View view;
-    boolean firstChange = true;
-
     Button idBtnFindCurrentLocation; //get current location
     TextView currentLocationLatLong;
     Context mcontext;
@@ -118,7 +104,6 @@ public class SearchFragment extends Fragment {
         ArrayList<FirebaseStation>  stationsInRange = new ArrayList<>();
         getCurrentUserLocation();
 
-        //while(currentLocationLatLong.getText().toString().equals("You could see you current location if you want"));
         currentLocationLatLong.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -130,8 +115,6 @@ public class SearchFragment extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable editable) {
-                //if(firstChange == false) {
-                    Log.e(tag, "Current user location: " + currentLocationLatLong.getText().toString());
                     String location = currentLocationLatLong.getText().toString();
                     String[] split_string = location.split(",");
                     Double latitudeUser = 0.0, longitudeUser = 0.0;
@@ -150,26 +133,18 @@ public class SearchFragment extends Fragment {
                             Double distance = DistanceComputer.distance_2(latitudeUser, longitudeUser, longitudeStation, latitudeStation);
                             if (distance <= 1000) {
                                 stationsInRange.add(station);
-                            } else {
-                                //Log.e(tag, "Distance, " + distance + " to station too long: " + station);
                             }
                         }
                     }
 
-                    Log.e(tag, "stationsInRange: " + stationsInRange.size());
                     for(FirebaseStation station : stationsInRange)
                     {
                         setStationAsMarkerOnMap(station);
-                        Log.e(tag, "Added marker for station: " + station.getStationName());
-
                     }
-                //}
-                //firstChange = false;
             }
         });
 
         //Search and map function below
-
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap)//when map loads store the reference in our map variable
@@ -203,12 +178,7 @@ public class SearchFragment extends Fragment {
                                 }
 
                             }
-                            //marker.showInfoWindow();
                         }
-                        Log.e(tag, "Clicked marker with position, but no routes to show ");
-                        //Using position get Value from arraylist
-                        //marker.showInfoWindow();
-
                         return false;
                     }
                 });
@@ -267,25 +237,6 @@ public class SearchFragment extends Fragment {
                         if(marker.getTag() != null)
                         {
                             ArrayList<String> names = (ArrayList<String>) marker.getTag();
-                            /*
-                            StringBuilder stringBuilder = new StringBuilder();
-                            boolean firstIteration = true;
-                            for(String name : names)
-                            {
-                                if(firstIteration)
-                                {
-                                    stringBuilder.append(name);
-                                    firstIteration = false;
-                                }
-                                else{
-                                    stringBuilder.append(", ");
-                                    stringBuilder.append(name);
-                                }
-                            }
-                            Log.e(tag, "Displaying info window: " + stringBuilder);
-                            //allRoutes.setText(stringBuilder.toString());
-
-                             */
                             llContainer.removeAllViews();
                             LayoutInflater layoutInflater = (LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                             for(String name : names)
@@ -428,7 +379,6 @@ public class SearchFragment extends Fragment {
         }
         Log.e(tag, "Routes for this station " + routeNameThatPassThrough.size());
         if(map != null) {
-            //map.clear();
             Marker marker = map.addMarker(markerOptions);
             marker.setSnippet(stringBuilder.toString());
             marker.setTag(routeNameThatPassThrough);

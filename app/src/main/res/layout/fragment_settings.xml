@@ -4,30 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="?attr/background_color">
+    android:gravity="center_horizontal"
+    android:background="@color/mainBackground">
 
-    <TextView
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:text="Settings"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:text="@string/dark_mode">
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/bt_switch"
-            android:layout_width="100dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            android:minHeight="48dp"/>
-    </TextView>
-
-    <TextView
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:text="@string/info_text" />
+    <Button
+        android:id="@+id/btn_changeTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:textColor="@color/mainText"
+        />
 
 </LinearLayout>

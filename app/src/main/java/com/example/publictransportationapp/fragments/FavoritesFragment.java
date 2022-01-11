@@ -1,12 +1,10 @@
 package com.example.publictransportationapp.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.publictransportationapp.R;
 import com.example.publictransportationapp.Tools.UserPreferences;
-import com.example.publictransportationapp.activity.SelectedRoute;
 import com.example.publictransportationapp.adapter.FavouriteAdapter;
 import com.example.publictransportationapp.model.FavouriteRoute;
 import com.example.publictransportationapp.model.GroupFavouriteRouteModel;

@@ -1,21 +1,18 @@
 package com.example.publictransportationapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
-
-import com.example.publictransportationapp.activity.ShowTransports;
 import com.example.publictransportationapp.fragments.FavoritesFragment;
 import com.example.publictransportationapp.fragments.HomeFragment;
-import com.example.publictransportationapp.fragments.InfoFragment;
 import com.example.publictransportationapp.fragments.SearchFragment;
-import com.example.publictransportationapp.fragments.VehiclesFragment;
 import com.example.publictransportationapp.fragments.SettingsFragment;
+import com.example.publictransportationapp.fragments.VehiclesFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
