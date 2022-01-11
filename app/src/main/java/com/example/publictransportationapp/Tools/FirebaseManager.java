@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 
 import com.example.publictransportationapp.model.FirebaseRoute;
 import com.example.publictransportationapp.model.FirebaseStation;
+import com.example.publictransportationapp.model.Station;
+import com.example.publictransportationapp.model.Transport;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FirebaseManager {
 
@@ -74,6 +77,27 @@ public class FirebaseManager {
         });
 
     }
+
+    public static Transport fetchDataForTransportGivenName(String routeName, CustomCallback callback)
+    {
+        DatabaseReference transportsReference = FirebaseManager.getTransportsReference();   //connect to database and get the times for this specific transport (given its name)
+        transportsReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Iterable<DataSnapshot> iterableTransportTypes = snapshot.getChildren();
+                ArrayList<String> transportTypes = fetchKeys(iterableTransportTypes);
+                Transport selectedTransport = fetchDataForTransportFromFirebase(routeName, transportTypes, snapshot);
+                callback.onCallback(selectedTransport);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return new Transport();
+    }
+
 
     public static String getTransportType(String routeName, ArrayList<String> transportTypeKeys, DataSnapshot snapshot)
     {
@@ -156,4 +180,75 @@ public class FirebaseManager {
     public static ArrayList<FirebaseStation> getFirebaseStationsCompleteList() {
         return firebaseStationsCompleteList;
     }
+
+    private static Transport fetchDataForTransportFromFirebase(String routeName, ArrayList<String> transportTypes, DataSnapshot snapshot) {
+        Transport transport = new Transport();
+        transport.setRouteName(routeName);      //set name of transport (ex: 33b, e8 etc)
+        String routeType = "";
+        int found = 0;
+        for(String transportType : transportTypes)
+        {
+            Iterable<DataSnapshot> values = snapshot.child(transportType).child("route").getChildren();
+            ArrayList<String> routeNames = fetchKeys(values); //For each transport type, get the transport routes (ex: 33b, e8 etc)
+
+            if(routeNames.contains(routeName)) //if our transport was inside this category of transports, retrieve that category
+            {
+                routeType = transportType;
+                found = 1;
+                break;
+            }
+        }
+        if(found == 0) //some kind of problem occurred while parsing the database, safe to quit
+        {
+            return null;
+        }
+        transport.setTransportType(routeType);  //set type of transport
+
+        ArrayList<String> directions = fetchDirectionsForGivenRoute(routeName, routeType, snapshot);
+        HashMap<String, ArrayList <Station>> stationsMap = new HashMap<>();
+        ArrayList<Station> stationsForGivenDirection;
+        for(String direction : directions) {
+            transport.addDirection(direction);  //update list of directions inside the transport variable we return
+            stationsForGivenDirection = fetchStationsForGivenDirection(routeName, routeType, direction, snapshot);
+            stationsMap.put(direction, stationsForGivenDirection);
+        }
+
+        transport.setStations(stationsMap); //finally, update the stations for this transport
+        return transport;
+    }
+
+    private static ArrayList<String> fetchDirectionsForGivenRoute(String routeName, String routeType, DataSnapshot snapshot) {
+        ArrayList<String> directions = new ArrayList<>();
+        DataSnapshot dataSnapshot = snapshot.child(routeType).child("route").child(routeName).child("data");
+        for(DataSnapshot child : dataSnapshot.getChildren()) //for this route, we will get to following directions
+        {
+            directions.add(child.getKey());
+        }
+        return directions;
+    }
+
+    private static ArrayList<Station> fetchStationsForGivenDirection(String routeName, String routeType, String direction, DataSnapshot snapshot) {
+        ArrayList<Station> stations = new ArrayList<>();
+        DataSnapshot dataSnapshot = snapshot.child(routeType).child("route").child(routeName).child("data").child(direction);
+        for(DataSnapshot child : dataSnapshot.getChildren()) //for each direction, we have a list of stations:times
+        {
+            DataSnapshot subChild = dataSnapshot.child(child.getKey()); //each subchild of a direction is split into a station and a time
+            Station station = new Station();
+            for(DataSnapshot value : subChild.getChildren())
+            {
+                if(value.getKey().equals("0"))      //if the child has key 0, it's a station,
+                {
+                    station.setStationName(value.getValue().toString());
+                }
+                else                                //else, it's a time
+                {
+                    station.setArrivalTime(value.getValue().toString());
+                }
+            }
+            stations.add(station);  //Add the new created station to the list of stations
+        }
+
+        return stations;
+    }
+
 }

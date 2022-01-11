@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.example.publictransportationapp.model.FavouriteRoute;
+import com.example.publictransportationapp.model.Transport;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -59,6 +60,11 @@ public class UserPreferences { //thank you https://www.geeksforgeeks.org/how-to-
                 public void onCallback(String value) {
                     editor.putString(favouriteRoute.getFavouriteRouteName(), value); //save favourites
                     editor.apply(); //apply the changes, asynchronously
+                }
+
+                @Override
+                public void onCallback(Transport selectedTransport) {
+
                 }
             });
         }

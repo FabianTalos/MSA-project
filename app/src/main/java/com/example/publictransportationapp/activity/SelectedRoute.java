@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.publictransportationapp.R;
+import com.example.publictransportationapp.Tools.CustomCallback;
 import com.example.publictransportationapp.Tools.FirebaseManager;
 import com.example.publictransportationapp.Tools.UserPreferences;
 import com.example.publictransportationapp.adapter.RouteMultiAdapter;
@@ -32,11 +33,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SelectedRoute extends AppCompatActivity {
 
     private UserPreferences userPreferences;
-
+    Transport selectedTransport, tempTransport;
     Context mcontext;
     ArrayList<ItemInterface> mStationsAndSectionList;
     @Override
@@ -98,62 +101,26 @@ public class SelectedRoute extends AppCompatActivity {
         //Deal with saved route in preferences
 
 
-        DatabaseReference transportsReference = FirebaseManager.getTransportsReference();   //connect to database and get the times for this specific transport (given its name)
-        transportsReference.addValueEventListener(new ValueEventListener() {
+        FirebaseManager.fetchDataForTransportGivenName(finalRouteName, new CustomCallback() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Iterable<DataSnapshot> iterableTransportTypes = snapshot.getChildren();
-                ArrayList<String> transportTypes = fetchKeys(iterableTransportTypes);
-                Transport selectedTransport = fetchDataForTransportGivenName(finalRouteName, transportTypes, snapshot);
-                //might need another thread to handle this fetching of data
+            public void onCallback(String value) {
 
-                RecyclerView myRecyclerView;
-                myRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewSelectedRoute);
-
-                if(myRecyclerView == null)
-                {
-                    Log.e("MainTag", "Not good");
-                }
-                else {
-
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
-                    myRecyclerView.setLayoutManager(linearLayoutManager);
-                    String routeName = selectedTransport.getRouteName();
-                    mStationsAndSectionList = new ArrayList<>();
-                    ArrayList<String> directions = selectedTransport.getDirections();
-                    for(String direction : directions)
-                    {
-                        ArrayList<Station> stationsList = selectedTransport.getStations(direction);
-                        getSectionalList(stationsList, mStationsAndSectionList, direction);
-
-                    }
-                    RouteMultiAdapter multiAdapter;
-                    myRecyclerView.setHasFixedSize(true);
-                    final GridLayoutManager gridLayoutManager = new GridLayoutManager(mcontext, 1);
-
-
-
-                    multiAdapter = new RouteMultiAdapter(mStationsAndSectionList, mcontext);
-                    gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                        @Override
-                        public int getSpanSize(int position) {
-                            if (RouteMultiAdapter.SECTION_VIEW == multiAdapter.getItemViewType(position)) {
-                                return 1;
-                            }
-                            return 1;
-                        }
-                    });
-                    myRecyclerView.setLayoutManager(gridLayoutManager);
-                    myRecyclerView.setAdapter(multiAdapter);
-
-                }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCallback(Transport value) {
+                //do smth with transport here
 
+                selectedTransport = value;
+                useAdapter(selectedTransport);
             }
         });
+
+
+
+
+
+
     }
 
     private Transport fetchDataForTransportGivenName(String routeName, ArrayList<String> transportTypes, DataSnapshot snapshot) {
@@ -243,6 +210,43 @@ public class SelectedRoute extends AppCompatActivity {
         }
     }
 
+    private void useAdapter(Transport selectedTransport)
+    {
+        RecyclerView myRecyclerView;
+        myRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewSelectedRoute);
 
+        if(myRecyclerView == null)
+        {
+            Log.e("MainTag", "Not good");
+        }
+        else {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
+            myRecyclerView.setLayoutManager(linearLayoutManager);
+            mStationsAndSectionList = new ArrayList<>();
+            ArrayList<String> directions = selectedTransport.getDirections();
+            for(String direction : directions)
+            {
+                ArrayList<Station> stationsList = selectedTransport.getStations(direction);
+                getSectionalList(stationsList, mStationsAndSectionList, direction);
 
+            }
+            RouteMultiAdapter multiAdapter;
+            myRecyclerView.setHasFixedSize(true);
+            final GridLayoutManager gridLayoutManager = new GridLayoutManager(mcontext, 1);
+
+            multiAdapter = new RouteMultiAdapter(mStationsAndSectionList, mcontext);
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (RouteMultiAdapter.SECTION_VIEW == multiAdapter.getItemViewType(position)) {
+                        return 1;
+                    }
+                    return 1;
+                }
+            });
+            myRecyclerView.setLayoutManager(gridLayoutManager);
+            myRecyclerView.setAdapter(multiAdapter);
+    }
+
+}
 }
