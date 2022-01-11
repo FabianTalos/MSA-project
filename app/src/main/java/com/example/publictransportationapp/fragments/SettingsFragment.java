@@ -23,14 +23,16 @@ import com.example.publictransportationapp.activity.TicketActivity;
 public class SettingsFragment extends Fragment {
 
     Button btn_changeTheme;
+    View view;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        if(view == null)
+            view = inflater.inflate(R.layout.fragment_settings, container, false);
         btn_changeTheme = (Button) view.findViewById(R.id.btn_changeTheme);
         Log.e(tag, "Ajuns in settings fragment");
         Log.e(tag, "Btn null ? " + (btn_changeTheme == null));
@@ -79,11 +81,5 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
-    public void onDestroy() {
-
-        super.onDestroy();
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
-    }
 
 }

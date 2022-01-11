@@ -33,6 +33,7 @@
             android:useDefaultMargins="true"
             android:columnCount="2"
             android:onClick="onClickOpenRoutes"
+             android:textAllCaps="true"
             >
         </GridLayout>
 

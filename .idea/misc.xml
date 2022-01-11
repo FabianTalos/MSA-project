@@ -32,6 +32,7 @@
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.16893115942028986" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18568840579710144" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.14990942028985507" />
         <entry key="app/src/main/res/layout/fragment_vehicles.xml" value="0.1" />
         <entry key="app/src/main/res/layout/info_window.xml" value="0.1816123188405797" />
         <entry key="app/src/main/res/layout/item.xml" value="0.15670289855072464" />
@@ -46,6 +47,7 @@
         <entry key="app/src/main/res/layout/row_station_timestamp.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/row_subcat_child.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/transport_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/transport_item_xml_example.xml" value="0.1816123188405797" />
         <entry key="app/src/main/res/xml/fragment_settings.xml" value="0.1" />
       </map>
     </option>
