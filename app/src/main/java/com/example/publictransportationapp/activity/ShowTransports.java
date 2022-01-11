@@ -1,6 +1,7 @@
 package com.example.publictransportationapp.activity;
 
 import static com.example.publictransportationapp.Tools.UsefulMethods.fetchKeys;
+import static com.example.publictransportationapp.Tools.UsefulMethods.tag;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,41 +39,71 @@ public class ShowTransports extends AppCompatActivity {
         setContentView(R.layout.activity_show_transports);
         mcontext = this;
 
-        //Fetch Real data
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference().child("transports");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot)
+        boolean receivedMultiple = false;
+        if(getIntent().getStringArrayListExtra("names") != null)
+        {
+            Log.e(tag, "Received list of routes");
+            Log.e(tag, "Routes: " + getIntent().getStringArrayListExtra("names"));
+            receivedMultiple = true;
+        }
+
+        if(!receivedMultiple) {
+            //Fetch Real data
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference reference = database.getReference().child("transports");
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Iterable<DataSnapshot> transportTypes = snapshot.getChildren();
+                    ArrayList<String> keys = fetchKeys(transportTypes); //get the important key names (bus, tram, etc)
+
+                    HashMap<String, ArrayList<String>> realRoutes;
+                    realRoutes = getAllRoutes(keys, snapshot); //Transport_type_1 -> Route_1, Route_2 etc
+
+                    //Open view and display data
+                    myRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewAllTransports);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
+                    if (myRecyclerView == null) {
+                        Log.e("MainTag", "Not good");
+                    } else {
+
+                        myRecyclerView.setLayoutManager(linearLayoutManager);
+                        transportsAdapter = new TransportsAdapter(realRoutes, mcontext);
+                        myRecyclerView.setAdapter(transportsAdapter);
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+        else
+        {
+            //show only the transports that were passed inside the intent
+            Log.e(tag, "Trying to display routes passed through activity");
+            ArrayList<String> routeNames = getIntent().getStringArrayListExtra("names");
+            ArrayList<String> lowerCaseNames = new ArrayList<>();
+            for(String s : routeNames)
             {
-                Iterable<DataSnapshot> transportTypes = snapshot.getChildren();
-                ArrayList<String> keys = fetchKeys(transportTypes); //get the important key names (bus, tram, etc)
-
-                HashMap<String, ArrayList<String>> realRoutes;
-                realRoutes = getAllRoutes(keys, snapshot); //Transport_type_1 -> Route_1, Route_2 etc
-
-                //Open view and display data
-                myRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewAllTransports);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
-                if(myRecyclerView == null)
-                {
-                    Log.e("MainTag", "Not good");
-                }
-                else {
-
-                    myRecyclerView.setLayoutManager(linearLayoutManager);
-                    transportsAdapter = new TransportsAdapter(realRoutes, mcontext);
-                    myRecyclerView.setAdapter(transportsAdapter);
-                }
-
+                lowerCaseNames.add(s.toLowerCase());
             }
+            HashMap<String, ArrayList<String>> realRoutes = new HashMap<>();
+            realRoutes.put("bus", lowerCaseNames);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            myRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewAllTransports);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
+            if (myRecyclerView == null) {
+                Log.e("MainTag", "Not good");
+            } else {
 
+                myRecyclerView.setLayoutManager(linearLayoutManager);
+                transportsAdapter = new TransportsAdapter(realRoutes, mcontext);
+                myRecyclerView.setAdapter(transportsAdapter);
             }
-        });
-
+        }
 
 
     }

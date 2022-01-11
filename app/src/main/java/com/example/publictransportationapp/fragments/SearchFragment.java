@@ -14,11 +14,16 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.Layout;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -27,12 +32,18 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.MotionEventCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 //import com.example.publictransportationapp.Manifest;
 import com.example.publictransportationapp.R;
+import com.example.publictransportationapp.Tools.DistanceComputer;
 import com.example.publictransportationapp.Tools.FirebaseManager;
+import com.example.publictransportationapp.activity.SelectedRoute;
+import com.example.publictransportationapp.activity.ShowTransports;
+import com.example.publictransportationapp.model.FirebaseRoute;
+import com.example.publictransportationapp.model.FirebaseStation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
@@ -44,6 +55,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -58,9 +71,10 @@ public class SearchFragment extends Fragment {
     SupportMapFragment supportMapFragment;
     SearchView searchView;
     private View view;
-
+    boolean firstChange = true;
     Button idBtnFindCurrentLocation; //get current location
     TextView currentLocationLatLong;
+    Context mcontext;
 
     final String[] PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -83,9 +97,8 @@ public class SearchFragment extends Fragment {
         }
 
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
-
         searchView = view.findViewById(R.id.sv_location);
-
+        mcontext = this.getContext();
         //Get current location here
         requestMultiplePermissionsContract = new ActivityResultContracts.RequestMultiplePermissions();
         multiplePermissionActivityResultLauncher = registerForActivityResult(requestMultiplePermissionsContract, isGranted -> {
@@ -101,10 +114,60 @@ public class SearchFragment extends Fragment {
             FirebaseManager.getAllStationCoordinatesFromFirebase();
         } } ).start();
 
+        ArrayList<FirebaseStation>  stationsInRange = new ArrayList<>();
         getCurrentUserLocation();
 
-        //Search and map function below
+        //while(currentLocationLatLong.getText().toString().equals("You could see you current location if you want"));
+        currentLocationLatLong.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //if(firstChange == false) {
+                    Log.e(tag, "Current user location: " + currentLocationLatLong.getText().toString());
+                    String location = currentLocationLatLong.getText().toString();
+                    String[] split_string = location.split(",");
+                    Double latitudeUser = 0.0, longitudeUser = 0.0;
+
+                    if (split_string.length == 2) {
+                        latitudeUser = Double.valueOf(split_string[0]);
+                        longitudeUser = Double.valueOf(split_string[1]);
+                    }
+                    ArrayList<FirebaseStation> allStations = FirebaseManager.getFirebaseStationsCompleteList();
+
+                    if (latitudeUser > 0) {
+                        for (FirebaseStation station : allStations) {
+                            Double latitudeStation = station.getLatitude();
+                            Double longitudeStation = station.getLongitude();
+                            //Double distance = DistanceComputer.distance(latitudeUser, latitudeStation, longitudeUser, longitudeStation);
+                            Double distance = DistanceComputer.distance_2(latitudeUser, longitudeUser, longitudeStation, latitudeStation);
+                            if (distance <= 1000) {
+                                stationsInRange.add(station);
+                            } else {
+                                //Log.e(tag, "Distance, " + distance + " to station too long: " + station);
+                            }
+                        }
+                    }
+
+                    Log.e(tag, "stationsInRange: " + stationsInRange.size());
+                    for(FirebaseStation station : stationsInRange)
+                    {
+                        setStationAsMarkerOnMap(station);
+                        Log.e(tag, "Added marker for station: " + station.getStationName());
+
+                    }
+                //}
+                //firstChange = false;
+            }
+        });
+
+        //Search and map function below
 
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -118,8 +181,130 @@ public class SearchFragment extends Fragment {
                     }
 
                 });
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        if(marker.getTag() != null)
+                        {
+                            ArrayList<String> names = (ArrayList<String>) marker.getTag();
+                            StringBuilder stringBuilder = new StringBuilder("");
+                            boolean firstIteration = true;
+                            for(String name : names)
+                            {
+                                if(firstIteration)
+                                {
+                                    stringBuilder.append(name);
+                                    firstIteration = false;
+                                }
+                                else{
+                                    stringBuilder.append(", ");
+                                    stringBuilder.append(name);
+                                }
+
+                            }
+                            //marker.showInfoWindow();
+                        }
+                        Log.e(tag, "Clicked marker with position, but no routes to show ");
+                        //Using position get Value from arraylist
+                        //marker.showInfoWindow();
+
+                        return false;
+                    }
+                });
+                map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(@NonNull Marker marker) {
+                        if(marker.getTag() != null)
+                        {
+                            ArrayList<String> names = (ArrayList<String>) marker.getTag();
+
+                            StringBuilder stringBuilder = new StringBuilder();
+                            boolean firstIteration = true;
+                            for(String name : names)
+                            {
+                                if(firstIteration)
+                                {
+                                    stringBuilder.append(name);
+                                    firstIteration = false;
+                                }
+                                else{
+                                    stringBuilder.append(", ");
+                                    stringBuilder.append(name);
+                                }
+                            }
+                            Log.e(tag, "Displaying info window: " + stringBuilder);
+
+                            Intent intent = new Intent(mcontext, ShowTransports.class);
+                            intent.putStringArrayListExtra("names", names);
+
+                            startActivity(intent);
+
+                        }
+                    }
+                });
+                map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+                    @Override
+                    public View getInfoWindow(Marker marker) {
+                        return null;
+                    }
+
+                    @SuppressLint("ClickableViewAccessibility")
+                    @Override
+                    public View getInfoContents(Marker marker) {
+
+                        View v = getLayoutInflater().inflate(R.layout.info_window,null);
+                        TextView showTitle = (TextView)  v.findViewById(R.id.showTitle);
+                        TextView showLat   = (TextView) v.findViewById(R.id.showLat);
+                        TextView showLong  = (TextView) v.findViewById(R.id.showLong);
+                        GridLayout llContainer = (GridLayout) v.findViewById(R.id.llContainer);
+
+                        LatLng latLng = marker.getPosition();
+                        showTitle.setText(marker.getTitle());
+                        showLat.setText("Latitude:" + latLng.latitude);
+                        showLong.setText("Longitude:" + latLng.longitude);
+
+                        if(marker.getTag() != null)
+                        {
+                            ArrayList<String> names = (ArrayList<String>) marker.getTag();
+                            /*
+                            StringBuilder stringBuilder = new StringBuilder();
+                            boolean firstIteration = true;
+                            for(String name : names)
+                            {
+                                if(firstIteration)
+                                {
+                                    stringBuilder.append(name);
+                                    firstIteration = false;
+                                }
+                                else{
+                                    stringBuilder.append(", ");
+                                    stringBuilder.append(name);
+                                }
+                            }
+                            Log.e(tag, "Displaying info window: " + stringBuilder);
+                            //allRoutes.setText(stringBuilder.toString());
+
+                             */
+                            llContainer.removeAllViews();
+                            LayoutInflater layoutInflater = (LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            for(String name : names)
+                            {
+                                View view = layoutInflater.inflate(R.layout.row_route_child, null);
+                                TextView tv_routeName = view.findViewById(R.id.tv_routeName);
+                                tv_routeName.setText(name);
+                                llContainer.addView(view);
+                            }
+
+                        }
+
+
+                        return v;
+                    }
+                });
             }
         });
+
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -139,8 +324,7 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-
-    private void getCurrentUserLocation()
+    private boolean getCurrentUserLocation()
     {
         idBtnFindCurrentLocation = view.findViewById(R.id.idBtnFindCurrentLocation);
         currentLocationLatLong = view.findViewById(R.id.currentLocationLatLong);
@@ -159,6 +343,8 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
+
+        return true;
     }
 
     @SuppressLint("MissingPermission")
@@ -219,6 +405,37 @@ public class SearchFragment extends Fragment {
         return false;
 
     }
+
+
+    private void setStationAsMarkerOnMap(FirebaseStation station)
+    {
+        LatLng stationPosition = new LatLng(station.getLongitude(), station.getLatitude());
+        Log.e(tag, "Coordinates: " + stationPosition);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(stationPosition);  //set marker properties
+        markerOptions.title(station.getStationName());
+        ArrayList<String> routeNameThatPassThrough = station.getRouteNamesThatPassThroughStation();
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean firstIteration = true;
+        for(String name : routeNameThatPassThrough)
+        {
+            if(firstIteration) continue;
+            else{
+                stringBuilder.append(", ");
+                stringBuilder.append(name);
+            }
+        }
+        Log.e(tag, "Routes for this station " + routeNameThatPassThrough.size());
+        if(map != null) {
+            //map.clear();
+            Marker marker = map.addMarker(markerOptions);
+            marker.setSnippet(stringBuilder.toString());
+            marker.setTag(routeNameThatPassThrough);
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(stationPosition, 14)); //animate to zoom marker
+            map.addMarker(markerOptions); //add marker on map
+        }
+    }
+
     private void setPositionAsMarkerOnMap(LatLng latLng){
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);  //set marker properties
@@ -266,9 +483,6 @@ public class SearchFragment extends Fragment {
     public void onDestroyView()
     {
         super.onDestroyView();
-        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.google_map);
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.remove(fragment);
-        ft.commit();
     }
+
 }

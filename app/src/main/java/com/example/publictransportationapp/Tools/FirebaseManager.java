@@ -21,8 +21,10 @@ public class FirebaseManager {
 
     private static FirebaseDatabase database;
     private static boolean updateExecuted = false;
-    public static ArrayList<FirebaseRoute> firebaseRoutesCompleteList;
-    public static ArrayList<FirebaseStation> firebaseStationsCompleteList;
+    private static ArrayList<FirebaseRoute> firebaseRoutesCompleteList;
+    private static ArrayList<FirebaseStation> firebaseStationsCompleteList;
+
+
 
     public static FirebaseDatabase getInstance()
     {
@@ -132,11 +134,8 @@ public class FirebaseManager {
                                 firebaseRoutesCompleteList.add(firebaseRoute);
                             }
                         }
-
                     }
-
-
-                    Log.e(tag, "Station: " + firebaseStation);
+                    //Log.e(tag, "Station: " + firebaseStation);
                 }
                 //callback.onCallback(transportType); //this will return the transport type value once it's fetched  from the db
             }
@@ -147,9 +146,14 @@ public class FirebaseManager {
             }
         });
 
-
-
-
         updateExecuted = true;
+    }
+
+    public static ArrayList<FirebaseRoute> getFirebaseRoutesCompleteList() {
+        return firebaseRoutesCompleteList;
+    }
+
+    public static ArrayList<FirebaseStation> getFirebaseStationsCompleteList() {
+        return firebaseStationsCompleteList;
     }
 }

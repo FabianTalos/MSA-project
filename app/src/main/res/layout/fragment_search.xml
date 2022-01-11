@@ -3,12 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- fragment -->
-        <fragment
-            android:id="@+id/google_map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            class="com.google.android.gms.maps.SupportMapFragment"
-            />
+    <fragment
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:id="@+id/google_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
         <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
 
     <SearchView

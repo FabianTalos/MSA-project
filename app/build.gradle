@@ -35,16 +35,19 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
+    implementation 'com.google.android.libraries.maps:maps:3.1.0-beta'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    implementation 'com.google.android.gms:play-services-maps:18.0.2' //for maps
+    implementation 'com.google.android.gms:play-services-maps:17.0.0' //for maps
     implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'com.google.android.libraries.places:places:2.5.0'
 
     implementation("androidx.activity:activity-ktx:1.4.0") //request location permission
     implementation("androidx.fragment:fragment-ktx:1.4.0")
+
+    implementation 'com.appolica:interactive-info-window-android:1.1.0'
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/showTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:hint="Current Location"
+            />
+
+        <TextView
+            android:id="@+id/showLat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Latitude: "/>
+
+        <TextView
+            android:id="@+id/showLong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Longitude: "/>
+
+         <GridLayout
+            android:id="@+id/llContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:useDefaultMargins="true"
+            android:columnCount="2"
+            android:onClick="onClickOpenRoutes"
+            >
+        </GridLayout>
+
+
+</LinearLayout>

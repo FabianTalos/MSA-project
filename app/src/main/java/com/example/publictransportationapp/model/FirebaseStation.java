@@ -16,6 +16,15 @@ public class FirebaseStation {
         this.routesThatPassThroughStation = new ArrayList<>();
     }
 
+    public ArrayList<String> getRouteNamesThatPassThroughStation()
+    {
+        ArrayList<String> names = new ArrayList<>();
+        for(FirebaseRoute route : routesThatPassThroughStation)
+        {
+            names.add(route.getRouteName());
+        }
+        return names;
+    }
     public ArrayList<FirebaseRoute> getRoutesThatPassThroughStation()
     {
         return this.routesThatPassThroughStation;
